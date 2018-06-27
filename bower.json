@@ -1,0 +1,20 @@
+{
+  "name": "jspdd",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": "qiushaowei <qiushaowei@360.net>",
+  "private": false,
+  "main": [
+    "dist/jspdd.js",
+    "dist/jspdd.min.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "moduleType": [
+    "globals"
+  ]
+}
