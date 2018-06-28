@@ -100,26 +100,11 @@
                                     }
                                 }
                             },
-                            "types": [
-                                "exe",
-                                "msi",
-                                "bat"
-                            ]
-                        }
-                    },
-                    "production_config": {
-                        "window_notice": {
-                            "type": "1"
+                            "types": {
+                                "label": "需要扫描的文件类型"
+                            }
                         }
                     }
-                },
-                "scanner_types": {
-                    "inherit": "1",
-                    "types": [
-                        "exe",
-                        "msi",
-                        "bat"
-                    ]
                 }
             }
         }
