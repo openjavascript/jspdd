@@ -12,39 +12,94 @@
                         , "unit": "分钟"
                     },
                     "inherit": {
-                        "label": "继续"
-                        , "type": "boolean"
+                        "label": "继承状态"
+                        , "enum": {
+                            "0": "不继承"
+                            , "1": "继承"
+                        }
                     }
                 },
                 "upgrade": {
                     "label": "升级设置",
-                    "type": "timing",
+                    "type": {
+                        "label": "升级类型"
+                        , "enum": {
+                            "auto": "自动升级主程序和规则库到最新版"
+                            , "timing": "定时升级"
+                            , "close": "不自动升级"
+                        }
+                    },
                     "timing_config": {
-                        "allow_cycle": [
-                            {
-                                "type": "0",
-                                "week": "3",
-                                "etime": "01:00",
-                                "stime": "00:00"
+                        "label": "定时升级"
+                        , "allow_cycle": {
+                            "label": "定时升级时间段"
+                            , "object_array": {
+                                "stime": {
+                                    "label": "开始时间"
+                                }
+                                , "etime": {
+                                    "label": "结束时间"
+                                }
+                                , "week": {
+                                    "label": "星期"
+                                }
+                                , "type": {
+                                    "label": "扫描周期"
+                                    , "enum": {
+                                        "0": "天"
+                                    }
+                                }
                             }
-                        ]
+                        }
                     }
                 }
             },
             "security_config": {
+                "label": "安全防护",
                 "scene_mode": {
-                    "inherit": "1",
-                    "mode": "deploy",
+                    "inherit": {
+                        "label": "继承状态"
+                        , "enum": {
+                            "0": "不继承"
+                            , "1": "继承"
+                        }
+                    },
+                    "mode": {
+                        "label": "场景模式"
+                        , "enum": {
+                            "emergency": "应急模式"    
+                            , "production": "生产模式"    
+                            , "deploy": "部署模式"    
+                        }
+                    },
                     "deploy_config": {
+                        "label": "部署模式配置",
                         "scanner_soft": {
-                            "open": "1",
-                            "ban_cycle": [
-                                {
-                                    "type": "0",
-                                    "etime": "11:00",
-                                    "stime": "10:00"
+                            "label": "软件信息收集",
+                            "open": {
+                                "label": "是否收集信息",
+                                "enum": {
+                                    "0": "不收集"
+                                    , "1": "收集"
                                 }
-                            ],
+                            },
+                            "ban_cycle": {
+                                "label": "设置限制扫描及上报的时间"
+                                , "object_array": {
+                                    "stime": {
+                                        "label": "开始时间"
+                                    }
+                                    , "etime": {
+                                        "label": "结束时间"
+                                    }
+                                    , "type": {
+                                        "label": "扫描周期"
+                                        , "enum": {
+                                            "0": "天"
+                                        }
+                                    }
+                                }
+                            },
                             "types": [
                                 "1",
                                 "exe",
