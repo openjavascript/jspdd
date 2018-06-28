@@ -49,20 +49,12 @@ export default class JSPDD {
         return JSON.parse( JSON.stringify( data ) );
     }
 
-    reset() {
-        this.N              = [];
-        this.D              = [];
-        this.E              = [];
-        this.A              = [];
-        this.MAP            = {};
-        this.ALL_MAP        = {};
-
-        this.diffData       = null;
-    }
-
     proc() {
 
         this.reset();
+
+        console.log( 'descDAta', this.descData );
+        this.makeDict( this.descData );
         
         this.diffData = diff( this.srcData, this.newData );
 
@@ -94,6 +86,58 @@ export default class JSPDD {
         return this.result();
     }
 
+    reset() {
+        this.N              = [];
+        this.D              = [];
+        this.E              = [];
+        this.A              = [];
+        this.MAP            = {};
+        this.ALL_MAP        = {};
+        this.DICT           = {};
+
+        this.diffData       = null;
+    }
+
+    makeDict( data, path = [], label = []) {
+        switch( data.constructor ){
+            case Object: {
+                Object.keys( data ).map( ( k ) => {
+                    let item = data[ k ]
+                        , spath = path.slice()
+                        , slabel = label.slice()
+                        ;
+                        spath.push( k );
+
+                    let fullpath =  spath.join( '.' );
+
+                    this.DICT[ fullpath ] = {
+                        item: item
+                    };
+
+                    if( item.label ){
+                        slabel.push( item.label );
+                        this.DICT[ fullpath ].fulllabel = slabel;
+                    }else{
+                        if( typeof item == 'string' ){
+                            slabel.push( item );
+                            this.DICT[ fullpath ].fulllabel = slabel;
+                        }
+                    }
+
+
+                    this.makeDict( item, spath, slabel );
+                });
+                break;
+            }
+            case Array: {
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
     makeMapData( item ) {
         item.fullpath   && ( this.MAP[ item.fullpath ] = item );
 
@@ -103,10 +147,19 @@ export default class JSPDD {
 
     resolvePath( item ) {
 
-        item.fullpath = item.path.join( '.' );
+        console.log( 'xxxxxx', item.kind );
+        let path = item.path.slice();
+
+        if( item.kind == KIND.arrayeditData ){
+            path.push( item.index );
+        }
+
+        item.fullpath = path.join( '.' );
         item.abspath = item.fullpath;
+
+        /*
         if( /[0-9]/.test( item.abspath ) ){
-            let tmp = item.path.slice();
+            let tmp = path.slice();
             for( let i = tmp.length -1; i >= 0; i-- ){
                 if( typeof tmp[i] == 'number' ) {
                     tmp.splice( i, 1 );
@@ -114,9 +167,10 @@ export default class JSPDD {
             }
             item.abspath = tmp.join( '.' );
         }
+        */
     }
 
-    result() {
+    debugData() {
         return {
             DESC: {
                 newData:            this.N
@@ -131,10 +185,17 @@ export default class JSPDD {
                 , diffData: this.diffData
                 , map:      this.MAP
                 , allmap:   this.ALL_MAP
+                , dictData: this.DICT
             }
             , INFO: {
             }
         }
+    }
+
+    result() {
+        let data = {};
+
+        return data;
     }
 
 }

@@ -12,7 +12,7 @@ export default class Example {
     run( doneCb ){
         if( !this.api.length ) {
             let result = this.proc();
-            doneCb && doneCb( result );
+            doneCb && doneCb( result, this.pdd );
             return;
         }
         let item = this.api.shift();

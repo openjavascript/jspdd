@@ -7,8 +7,14 @@ let demo = new Example( [
     , "./data/case1/descdata.json"
 ]);
 
-demo.run( ( data )=>{
+demo.run( ( data, pdd )=>{
     console.log( 'done', Date.now() );
-    console.dir( data );
-    console.log( data.SRC.allmap );
+
+    let debugData = pdd.debugData();
+    console.log( 'debugData', debugData );
+    console.log( 'allmap', debugData.SRC.allmap );
+    console.log( 'dictData', debugData.SRC.dictData );
+
+
+    console.log( 'data', data );
 });
