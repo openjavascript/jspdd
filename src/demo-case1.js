@@ -10,4 +10,5 @@ let demo = new Example( [
 demo.run( ( data )=>{
     console.log( 'done', Date.now() );
     console.dir( data );
+    console.log( data.SRC.allmap );
 });

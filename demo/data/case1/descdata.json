@@ -1,3 +1,73 @@
 {
-    "name": "descdata"
+    "data": {
+        "label": "攻击发现与风险控制系统 - 策略中心",
+        "detail": {
+            "label": "终端策略",
+            "base_config": {
+                "label": "基本策略",
+                "time_sync": {
+                    "label": "通讯设置",
+                    "interval": {
+                        "label": "终端与控制中心通讯间隔"
+                        , "unit": "分钟"
+                    },
+                    "inherit": {
+                        "label": "继续"
+                        , "type": "boolean"
+                    }
+                },
+                "upgrade": {
+                    "label": "升级设置",
+                    "type": "timing",
+                    "timing_config": {
+                        "allow_cycle": [
+                            {
+                                "type": "0",
+                                "week": "3",
+                                "etime": "01:00",
+                                "stime": "00:00"
+                            }
+                        ]
+                    }
+                }
+            },
+            "security_config": {
+                "scene_mode": {
+                    "inherit": "1",
+                    "mode": "deploy",
+                    "deploy_config": {
+                        "scanner_soft": {
+                            "open": "1",
+                            "ban_cycle": [
+                                {
+                                    "type": "0",
+                                    "etime": "11:00",
+                                    "stime": "10:00"
+                                }
+                            ],
+                            "types": [
+                                "1",
+                                "exe",
+                                "msi",
+                                "bat"
+                            ]
+                        }
+                    },
+                    "production_config": {
+                        "window_notice": {
+                            "type": "1"
+                        }
+                    }
+                },
+                "scanner_types": {
+                    "inherit": "1",
+                    "types": [
+                        "exe",
+                        "msi",
+                        "bat"
+                    ]
+                }
+            }
+        }
+    }
 }
