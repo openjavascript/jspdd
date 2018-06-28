@@ -1,6 +1,6 @@
 
 import 'whatwg-fetch';
-import JSPDD from './jspdd.js';
+import JSPDD from '../jspdd.js';
 
 
 export default class Example {
@@ -8,12 +8,11 @@ export default class Example {
         this.DATA = [];
         this.api = api;
         this.pdd;
-
-        this.run();
     }
-    run(){
+    run( doneCb ){
         if( !this.api.length ) {
-            this.proc();
+            let result = this.proc();
+            doneCb && doneCb( result );
             return;
         }
         let item = this.api.shift();
@@ -24,13 +23,15 @@ export default class Example {
         }).then( ( json ) => {
             //this.DATA[ item.type ] = json;
             this.DATA.push( json );
-            this.run();
+            this.run( doneCb );
         })
     }
 
     proc() {
         //console.log( 'api data:', this.DATA );
         this.pdd = new JSPDD( ...this.DATA );
+
+        return this.pdd.proc();
     }
 }
 
