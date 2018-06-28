@@ -40,10 +40,8 @@
     "coverage": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha",
     "coveralls": "istanbul-coveralls",
     "check": "npm run lint && npm run coverage",
-
     "dev": "webpack --config webpack/webpack.config.development.js --watch",
     "build": "webpack --config webpack/webpack.config.production.js",
-
     "preversion": "npm run clean && npm run check",
     "version": "npm run build",
     "postversion": "git push && git push --tags && npm run clean",
@@ -80,5 +78,9 @@
   "devEngines": {
     "node": "4.x || 5.x",
     "npm": "2.x || 3.x"
+  },
+  "dependencies": {
+    "deep-diff": "^1.0.1",
+    "whatwg-fetch": "^2.0.4"
   }
 }

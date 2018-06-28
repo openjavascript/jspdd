@@ -1,0 +1,148 @@
+{
+  "message": "获取数据成功",
+  "data": {
+    "detail": {
+      "base_config": {
+        "time_sync": {
+          "interval": "60",
+          "inherit": "0"
+        },
+        "upgrade": {
+          "type": "timing",
+          "timing_config": {
+            "allow_cycle": [
+              {
+                "type": "1",
+                "week": "3",
+                "etime": "01:00",
+                "stime": "00:00"
+              },
+              {
+                "type": "0",
+                "week": "3",
+                "etime": "01:00",
+                "stime": "00:00"
+              }
+            ],
+            "inherit": "0"
+          },
+          "inherit": "0"
+        }
+      },
+      "security_config": {
+        "scene_mode": {
+          "inherit": "0",
+          "mode": "deploy",
+          "deploy_config": {
+            "scanner_soft": {
+              "open": "1",
+              "ban_cycle": [
+                {
+                  "type": "0",
+                  "etime": "18:00",
+                  "stime": "17:00"
+                },
+                {
+                  "type": "0",
+                  "etime": "11:00",
+                  "stime": "10:00"
+                }
+              ],
+              "types": [
+                "dll",
+                "exe",
+                "msi",
+                "bat"
+              ],
+              "inherit": "0"
+            }
+          },
+          "production_config": {
+            "window_notice": {
+              "type": "1",
+              "inherit": "0"
+            }
+          }
+        },
+        "scanner_types": {
+          "inherit": "0",
+          "types": [
+            "exe",
+            "msi",
+            "bat"
+          ]
+        }
+      }
+    },
+    "parent_detail": {
+      "base_config": {
+        "time_sync": {
+          "interval": "900",
+          "inherit": "1"
+        },
+        "upgrade": {
+          "type": "timing",
+          "timing_config": {
+            "allow_cycle": [
+              {
+                "type": "1",
+                "week": "3",
+                "etime": "01:00",
+                "stime": "00:00"
+              },
+              {
+                "type": "0",
+                "week": "3",
+                "etime": "01:00",
+                "stime": "00:00"
+              }
+            ]
+          }
+        }
+      },
+      "security_config": {
+        "scene_mode": {
+          "inherit": "1",
+          "mode": "deploy",
+          "deploy_config": {
+            "scanner_soft": {
+              "open": "1",
+              "ban_cycle": [
+                {
+                  "type": "0",
+                  "etime": "18:00",
+                  "stime": "17:00"
+                },
+                {
+                  "type": "0",
+                  "etime": "11:00",
+                  "stime": "10:00"
+                }
+              ],
+              "types": [
+                "dll",
+                "exe",
+                "msi",
+                "bat"
+              ]
+            }
+          },
+          "production_config": {
+            "window_notice": {
+              "type": "1"
+            }
+          }
+        },
+        "scanner_types": {
+          "inherit": "1",
+          "types": [
+            "exe",
+            "msi",
+            "bat"
+          ]
+        }
+      }
+    }
+  },
+  "errorCode": 0
+}
