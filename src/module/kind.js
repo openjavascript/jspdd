@@ -1,4 +1,7 @@
 
 export default {
-    't': 2222
+    'newData':              'N'
+    , 'deleteData':         'D'
+    , 'modifyData':         'E'
+    , 'arrayModifyData':    'A'
 }

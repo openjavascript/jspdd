@@ -67,7 +67,7 @@ export default class JSPDD {
         this.clone( this.diffData ).map( ( v, k ) => {
             switch( v.kind ){
                 case KIND.newData: {
-                    this.N.push( v.kind );
+                    this.N.push( v );
                     break;
                 }
                 case KIND.deleteData: {
