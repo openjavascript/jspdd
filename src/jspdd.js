@@ -50,12 +50,14 @@ export default class JSPDD {
     }
 
     reset() {
-        this.N = [];
-        this.D = [];
-        this.E = [];
-        this.A = [];
+        this.N              = [];
+        this.D              = [];
+        this.E              = [];
+        this.A              = [];
+        this.MAP            = {};
+        this.ALL_MAP        = {};
 
-        this.diffData = null;
+        this.diffData       = null;
     }
 
     proc() {
@@ -65,18 +67,25 @@ export default class JSPDD {
         this.diffData = diff( this.srcData, this.newData );
 
         this.clone( this.diffData ).map( ( v, k ) => {
+
+            this.resolvePath( v );
+            this.makeMapData( v );
+
             switch( v.kind ){
                 case KIND.newData: {
                     this.N.push( v );
                     break;
                 }
                 case KIND.deleteData: {
+                    this.D.push( v );
                     break;
                 }
-                case KIND.modifyData: {
+                case KIND.editData: {
+                    this.E.push( v );
                     break;
                 }
-                case KIND.arrayModifyData: {
+                case KIND.arrayeditData: {
+                    this.A.push( v );
                     break;
                 }
             }
@@ -85,19 +94,43 @@ export default class JSPDD {
         return this.result();
     }
 
+    makeMapData( item ) {
+        item.fullpath   && ( this.MAP[ item.fullpath ] = item );
+
+        item.fullpath   && ( this.ALL_MAP[ item.fullpath ] = item );
+        item.abspath    && ( this.ALL_MAP[ item.abspath ] = item );
+    }
+
+    resolvePath( item ) {
+
+        item.fullpath = item.path.join( '.' );
+        item.abspath = item.fullpath;
+        if( /[0-9]/.test( item.abspath ) ){
+            let tmp = item.path.slice();
+            for( let i = tmp.length -1; i >= 0; i-- ){
+                if( typeof tmp[i] == 'number' ) {
+                    tmp.splice( i, 1 );
+                }
+            }
+            item.abspath = tmp.join( '.' );
+        }
+    }
+
     result() {
         return {
             DESC: {
                 newData:            this.N
                 , deleteData:       this.D
-                , modifyData:       this.E
-                , arrayModifyData:  this.A
+                , editData:         this.E
+                , arrayeditData:    this.A
             }
             , SRC: {
                 srcData:    this.srcData
                 , newData:  this.newData
                 , descData: this.descData
                 , diffData: this.diffData
+                , map:      this.MAP
+                , allmap:   this.ALL_MAP
             }
             , INFO: {
             }
