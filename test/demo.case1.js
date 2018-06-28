@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { util } from '../src/index';
+import { util } from '../src/demo-case1';
 
 describe('util', () => {
   it(`should return object contains foo`, () => {

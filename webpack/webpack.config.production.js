@@ -3,6 +3,8 @@
 var webpack = require('webpack');
 var baseConfig = require('./webpack.config.base');
 
+baseConfig.output.filename = '[name].min.js';
+
 var config = Object.create(baseConfig);
 config.plugins = [
   new webpack.optimize.OccurenceOrderPlugin(),

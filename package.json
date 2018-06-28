@@ -5,8 +5,8 @@
   "author": "qiushaowei <qiushaowei@360.net>",
   "license": "MIT",
   "homepage": "https://github.com/suches/jspdd",
-  "main": "lib/index.js",
-  "jsnext:main": "src/index.js",
+  "main": "dist/jspdd.js",
+  "jsnext:main": "src/jspdd.js",
   "files": [
     "dist",
     "lib",
@@ -40,11 +40,10 @@
     "coverage": "babel-node node_modules/isparta/bin/isparta cover node_modules/mocha/bin/_mocha",
     "coveralls": "istanbul-coveralls",
     "check": "npm run lint && npm run coverage",
-    "build:lib": "babel src --out-dir lib --source-maps",
-    "build:umd": "webpack src/index.js dist/jspdd.js --config webpack/webpack.config.development.js",
-    "dev": "webpack src/index.js dist/jspdd.js --config webpack/webpack.config.development.js --watch",
-    "build:umd:min": "webpack src/index.js dist/jspdd.min.js --config webpack/webpack.config.production.js",
-    "build": "npm run build:lib && npm run build:umd && npm run build:umd:min",
+
+    "dev": "webpack --config webpack/webpack.config.development.js --watch",
+    "build": "webpack --config webpack/webpack.config.production.js",
+
     "preversion": "npm run clean && npm run check",
     "version": "npm run build",
     "postversion": "git push && git push --tags && npm run clean",
