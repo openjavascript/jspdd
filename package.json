@@ -81,6 +81,7 @@
   },
   "dependencies": {
     "deep-diff": "^1.0.1",
+    "moment": "^2.22.2",
     "whatwg-fetch": "^2.0.4"
   }
 }

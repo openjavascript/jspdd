@@ -2,6 +2,8 @@
 import diff from 'deep-diff';
 import KIND from './module/kind.js';
 
+import moment from 'moment';
+
 /*
     Differences are reported as one or more change records. 
         Change records have the following structure:
@@ -116,20 +118,25 @@ export default class JSPDD {
             r.label = dict.fulllabel;
         }
 
+
         if( r.label.length ){
             r.indict = 1;
 
-            r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
-            r.desc.push( `新增数据字段: ${r.datapath.slice( -1 ).join('')}` );
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
+
             r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
-            r.desc.push( `数据类型: ${typeof item.rhs}` );
-            r.desc.push( `字段值: ${this.getDataLiteral(item.rhs)}` );
         }else{
-            r.desc.push( `${r.datapath.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `新增数据字段: ${r.datapath.slice( -1 ).join('')}` );
-            r.desc.push( `数据类型: ${typeof item.rhs}` );
-            r.desc.push( `字段值: ${this.getDataLiteral(item.rhs)}` );
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
         }
+        r.desc.push( `新增数据字段: ${r.datakey.slice( -1 ).join('')}` );
+        r.desc.push( `数据类型: ${typeof r.val}` );
+        r.desc.push( `字段值: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `操作时间: ${r.d}` );
+
+        this.userName && r.desc.push( `操作用户: ${this.userName}` );
+        this.userId && r.desc.push( `用户ID: ${this.userId}` );
 
         return r;
     }
@@ -142,15 +149,22 @@ export default class JSPDD {
     }
 
     descDataItem( item ){
+        let ts = Date.now()
+            , r = {
+                "label": []
+                , "datakey": item.path
+                , "desc": []
+                , "val": item.rhs
+                , "_val": item.lhs
+                , "indict": 0
+                , "ts": ts
+                , "d": moment( ts ).format( 'YYYY-MM-DD HH:mm:ss.SSS' )
+                , "userName": this.userName
+                , "userId": this.userId
+            }
+            ;
 
-        return {
-            "label": []
-            , "datapath": item.path
-            , "desc": []
-            , "rhs": item.rhs
-            , "lhs": item.lhs
-            , "indict": 0
-        }
+        return r;
     }
 
     procDel( item ){
@@ -184,6 +198,9 @@ export default class JSPDD {
     }
 
     reset() {
+        this.userName;
+        this.userId;
+
         this.N              = [];
         this.D              = [];
         this.E              = [];

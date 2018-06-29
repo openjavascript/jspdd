@@ -8,6 +8,9 @@ export default class Example {
         this.DATA = [];
         this.api = api;
         this.pdd;
+
+        this.userName;
+        this.userId;
     }
     run( doneCb ){
         if( !this.api.length ) {
@@ -30,6 +33,9 @@ export default class Example {
     proc() {
         //console.log( 'api data:', this.DATA );
         this.pdd = new JSPDD( ...this.DATA );
+
+        this.pdd.userName = this.userName;
+        this.pdd.userId = this.userId;
 
         return this.pdd.proc();
     }
