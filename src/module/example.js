@@ -30,6 +30,10 @@ export default class Example {
         })
     }
 
+    update( srcData, newData, descData ) {
+        this.DATA = [ srcData, newData, descData ];
+    }
+
     proc() {
         //console.log( 'api data:', this.DATA );
         this.pdd = new JSPDD( ...this.DATA );

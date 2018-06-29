@@ -63,7 +63,8 @@
 	var srcData = (0, _jquery2.default)('#srcData'),
 	    newData = (0, _jquery2.default)('#newData'),
 	    descData = (0, _jquery2.default)('#descData'),
-	    outputData = (0, _jquery2.default)('#outputData');
+	    outputData = (0, _jquery2.default)('#outputData'),
+	    procBtn = (0, _jquery2.default)('#procBtn');
 
 	var demo = new _example2.default(["./data/case1/srcdata.json", "./data/case1/newdata.json", "./data/case1/descdata.json"]);
 	demo.userName = 'testUser';
@@ -82,6 +83,21 @@
 	    descData.val((0, _stringify2.default)(debugData.SRC.descData, null, 4));
 
 	    outputData.val((0, _stringify2.default)(data, null, 4));
+	});
+
+	procBtn.on('click', function () {
+	    var tmpSrc = JSON.parse(srcData.val()),
+	        tmpNew = JSON.parse(newData.val()),
+	        tmpDesc = JSON.parse(descData.val());
+
+	    //console.log( tmpSrc, tmpNew, tmpDesc );
+	    outputData.val('');
+	    demo.update(tmpSrc, tmpNew, tmpDesc);
+	    demo.run(function (data, pdd) {
+	        setTimeout(function () {
+	            outputData.val((0, _stringify2.default)(data, null, 4));
+	        }, 500);
+	    });
 	});
 
 /***/ },
@@ -19145,6 +19161,10 @@
 	            _this.DATA.push(json);
 	            _this.run(doneCb);
 	        });
+	    };
+
+	    Example.prototype.update = function update(srcData, newData, descData) {
+	        this.DATA = [srcData, newData, descData];
 	    };
 
 	    Example.prototype.proc = function proc() {

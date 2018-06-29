@@ -6,6 +6,7 @@ let srcData = $( '#srcData' )
     , newData = $( '#newData' )
     , descData = $( '#descData' )
     , outputData = $( '#outputData' )
+    , procBtn = $( '#procBtn' )
     ;
 
 let demo = new Example( [ 
@@ -31,3 +32,20 @@ demo.run( ( data, pdd )=>{
     outputData.val( JSON.stringify( data, null, 4 ) );
 });
 
+
+procBtn.on( 'click', function(){
+    let tmpSrc = JSON.parse( srcData.val() )
+        , tmpNew = JSON.parse( newData.val() )
+        , tmpDesc  = JSON.parse( descData.val() )
+        ;
+
+    //console.log( tmpSrc, tmpNew, tmpDesc );
+    outputData.val( '' );
+    demo.update( tmpSrc, tmpNew, tmpDesc );
+    demo.run( ( data, pdd )=>{
+        setTimeout( ()=>{
+            outputData.val( JSON.stringify( data, null, 4 ) );
+        }, 500 );
+    });
+
+});
