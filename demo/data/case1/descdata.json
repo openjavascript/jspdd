@@ -21,6 +21,19 @@
                             , "1": "继承"
                         }
                     }
+                    , "testar1": {
+                        "_array": {
+                            "label": "测试数组-编辑数值"
+                        }
+                    }
+                    , "testar2": {
+                        "_array": {
+                            "label": "测试数组-object-编辑数值"
+                            , "a": {
+                                "label": "test key a"
+                            }
+                        }
+                    }
                 },
                 "upgrade": {
                     "label": "升级设置",

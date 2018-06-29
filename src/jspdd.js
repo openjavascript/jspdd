@@ -109,9 +109,26 @@ export default class JSPDD {
         }
     }
 
+    getDictData( item ) {
+        let r = this.DICT[item.fullpath]
+
+        if( !r && /[0-9]/.test( item.fullpath ) ){
+            let tmp = [];
+            item.path.map( (v)=>{
+                typeof v == 'string' && tmp.push( v );
+                typeof v == 'number' && tmp.push( '_array' );
+            });
+            tmp.length && ( item.abspath = tmp.join('.') );
+
+            item.abspath && ( r = this.DICT[ item.abspath ] );
+        }
+
+        return r;
+    }
+
     procNew( item ){
         let r = this.descDataItem( item )
-            , dict = this.DICT[item.fullpath]
+            , dict = this.getDictData( item )
             ;
 
         if( dict ){
@@ -145,10 +162,10 @@ export default class JSPDD {
 
     procEdit( item ){
         let r = this.descDataItem( item )
-            , dict = this.DICT[item.fullpath]
+            , dict = this.getDictData( item )
             ;
 
-        if( dict ){
+        if( dict && dict.fulllabel && dict.fulllabel.length ){
             r.label = dict.fulllabel;
         }
 
@@ -276,7 +293,6 @@ export default class JSPDD {
         item.fullpath   && ( this.MAP[ item.fullpath ] = item );
 
         item.fullpath   && ( this.ALL_MAP[ item.fullpath ] = item );
-        item.abspath    && ( this.ALL_MAP[ item.abspath ] = item );
     }
 
     resolvePath( item ) {
@@ -288,19 +304,6 @@ export default class JSPDD {
         }
 
         item.fullpath = path.join( '.' );
-        item.abspath = item.fullpath;
-
-        /*
-        if( /[0-9]/.test( item.abspath ) ){
-            let tmp = path.slice();
-            for( let i = tmp.length -1; i >= 0; i-- ){
-                if( typeof tmp[i] == 'number' ) {
-                    tmp.splice( i, 1 );
-                }
-            }
-            item.abspath = tmp.join( '.' );
-        }
-        */
     }
 
     debugData() {

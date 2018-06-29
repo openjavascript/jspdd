@@ -10,8 +10,9 @@
                     "interval": "900",
                     "inherit": "0"
                     , "testar": [ { "t": 1 } ]
-                    , "testar1": [ 2 ]
-                    , "testar2": [ { "a": 2 } ]
+                    , "testar1": [ 12 ]
+                    , "testar2": [ { "a": 112 } ]
+                    , "testar3": [ 1111, 1114 ]
                 },
                 "upgrade": {
                     "inherit": "0",
