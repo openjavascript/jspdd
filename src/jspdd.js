@@ -132,12 +132,8 @@ export default class JSPDD {
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
             r.desc.push( `新增字段: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${typeof r.val}` );
+        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `字段值: ${this.getDataLiteral(r.val)}` );
-        r.desc.push( `操作时间: ${r.d}` );
-
-        this.userName && r.desc.push( `操作用户: ${this.userName}` );
-        this.userId && r.desc.push( `用户ID: ${this.userId}` );
 
         return r;
     }
@@ -170,13 +166,9 @@ export default class JSPDD {
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
             r.desc.push( `编辑字段: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${typeof r.val}` );
+        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `字段新值: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `字段旧值: ${this.getDataLiteral(r._val)}` );
-        r.desc.push( `操作时间: ${r.d}` );
-
-        this.userName && r.desc.push( `操作用户: ${this.userName}` );
-        this.userId && r.desc.push( `用户ID: ${this.userId}` );
 
         return r;
     }
@@ -217,10 +209,6 @@ export default class JSPDD {
                 , "val": item.rhs
                 , "_val": item.lhs
                 , "indict": 0
-                , "ts": ts
-                , "d": moment( ts ).format( 'YYYY-MM-DD HH:mm:ss.SSS' )
-                , "userName": this.userName
-                , "userId": this.userId
             }
             ;
 
@@ -338,22 +326,31 @@ export default class JSPDD {
     }
 
     result() {
-        let r = {};
+        let r = { data: {} };
 
         this.N 
             && this.N.length
-            && ( r['add'] = this.N )
+            && ( r.data['add'] = this.N )
             ;
 
         this.E 
             && this.N.length
-            && ( r['edit'] = this.E )
+            && ( r.data['edit'] = this.E )
             ;
 
         this.D 
             && this.N.length
-            && ( r['delete'] = this.D )
+            && ( r.data['delete'] = this.D )
             ;
+
+        this.userName && 
+            ( r[ "userName" ] = this.userName );
+
+        this.userId && 
+            ( r[ "userId" ] = this.userId );
+
+        r.ts = Date.now();
+        r.date = moment( r.ts ).format( 'YYYY-MM-DD HH:mm:ss' );
 
         return r;
     }
