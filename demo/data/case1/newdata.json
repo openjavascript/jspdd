@@ -11,6 +11,7 @@
                     "inherit": "0"
                     , "testar": [ { "t": 1 } ]
                     , "testar1": [ 2 ]
+                    , "testar2": [ { "a": 2 } ]
                 },
                 "upgrade": {
                     "inherit": "0",
