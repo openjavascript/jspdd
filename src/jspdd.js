@@ -112,7 +112,7 @@ export default class JSPDD {
             , dict = this.DICT[item.fullpath]
             ;
 
-        r.path      = item.path;
+        r.datapath      = item.path;
 
         if( dict ){
             r.label = dict.fulllabel;
@@ -124,7 +124,7 @@ export default class JSPDD {
     descDataItem(){
         return {
             "label": []
-            , "path": []
+            , "datapath": []
         }
     }
 
