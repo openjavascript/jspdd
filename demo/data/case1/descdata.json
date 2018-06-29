@@ -1,4 +1,7 @@
 {
+    "test1": {
+        "label": "test data"
+    },
     "data": {
         "label": "攻击发现与风险控制系统 - 策略中心",
         "detail": {

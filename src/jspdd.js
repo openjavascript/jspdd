@@ -108,23 +108,48 @@ export default class JSPDD {
     }
 
     procNew( item ){
-        let r = this.descDataItem()
+        let r = this.descDataItem( item )
             , dict = this.DICT[item.fullpath]
             ;
-
-        r.datapath      = item.path;
 
         if( dict ){
             r.label = dict.fulllabel;
         }
 
+        if( r.label.length ){
+            r.indict = 1;
+
+            r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
+            r.desc.push( `新增数据字段: ${r.datapath.slice( -1 ).join('')}` );
+            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `数据类型: ${typeof item.rhs}` );
+            r.desc.push( `字段值: ${this.getDataLiteral(item.rhs)}` );
+        }else{
+            r.desc.push( `${r.datapath.slice( 0, -1 ).join('.')}` );
+            r.desc.push( `新增数据字段: ${r.datapath.slice( -1 ).join('')}` );
+            r.desc.push( `数据类型: ${typeof item.rhs}` );
+            r.desc.push( `字段值: ${this.getDataLiteral(item.rhs)}` );
+        }
+
         return r;
     }
 
-    descDataItem(){
+    getDataLiteral( item ) {
+        if( typeof item == 'object' || typeof item == 'array' ){
+            return JSON.stringify( item );
+        }
+        return item;
+    }
+
+    descDataItem( item ){
+
         return {
             "label": []
-            , "datapath": []
+            , "datapath": item.path
+            , "desc": []
+            , "rhs": item.rhs
+            , "lhs": item.lhs
+            , "indict": 0
         }
     }
 
@@ -189,14 +214,15 @@ export default class JSPDD {
 
                     if( item.label ){
                         slabel.push( item.label );
+                        this.DICT[ fullpath ].parentlabel= label;
                         this.DICT[ fullpath ].fulllabel = slabel;
                     }else{
                         if( typeof item == 'string' ){
                             slabel.push( item );
+                            this.DICT[ fullpath ].parentlabel= label;
                             this.DICT[ fullpath ].fulllabel = slabel;
                         }
                     }
-
 
                     this.makeDict( item, spath, slabel );
                 });
