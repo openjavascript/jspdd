@@ -34,6 +34,19 @@
                             }
                         }
                     }
+                    , "testar2": {
+                        "_array": {
+                            "label": "测试数组-object-编辑数值"
+                            , "a": {
+                                "label": "test key a"
+                            }
+                        }
+                    }
+                    , "testar3": {
+                        "_array": {
+                            "label": "测试数组-编辑数值"
+                        }
+                    }
                 },
                 "upgrade": {
                     "label": "升级设置",
@@ -120,7 +133,9 @@
                                 }
                             },
                             "types": {
-                                "label": "需要扫描的文件类型"
+                                "_array": {
+                                    "label": "需要扫描的文件类型"
+                                }
                             }
                         }
                     }

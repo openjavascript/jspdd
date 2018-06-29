@@ -165,6 +165,7 @@ export default class JSPDD {
     procEdit( item ){
         let r = this.descDataItem( item )
             , dict = this.getDictData( item )
+            , dateItemUnit = this.getDataItemUnit( item )
             ;
         r.action = 'edit';
 
@@ -179,16 +180,28 @@ export default class JSPDD {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `编辑字段: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
             r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `编辑字段: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `字段新值: ${this.getDataLiteral(r.val)}` );
-        r.desc.push( `字段旧值: ${this.getDataLiteral(r._val)}` );
+        r.desc.push( `${dateItemUnit}新值: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `${dateItemUnit}旧值: ${this.getDataLiteral(r._val)}` );
+
+        return r;
+    }
+
+    getDataItemUnit( item ) {
+        let r = '字段';
+
+        console.log( 'getDataItemUnit', r, item.length );
+
+        if( r.path && r.path.length && typeof r.path[ r.path.length - 1 ] == 'number' ){
+            r = '索引';
+        }
 
         return r;
     }

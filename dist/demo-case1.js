@@ -17233,7 +17233,8 @@
 
 	    JSPDD.prototype.procEdit = function procEdit(item) {
 	        var r = this.descDataItem(item),
-	            dict = this.getDictData(item);
+	            dict = this.getDictData(item),
+	            dateItemUnit = this.getDataItemUnit(item);
 	        r.action = 'edit';
 
 	        if (dict && dict.fulllabel && dict.fulllabel.length) {
@@ -17245,15 +17246,27 @@
 
 	            r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	            r.desc.push('\u7F16\u8F91\u5B57\u6BB5: ' + r.datakey.slice(-1).join(''));
+	            r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
 	        } else {
 	            r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	            r.desc.push('\u7F16\u8F91\u5B57\u6BB5: ' + r.datakey.slice(-1).join(''));
+	            r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	        }
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
-	        r.desc.push('\u5B57\u6BB5\u65B0\u503C: ' + this.getDataLiteral(r.val));
-	        r.desc.push('\u5B57\u6BB5\u65E7\u503C: ' + this.getDataLiteral(r._val));
+	        r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
+	        r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
+
+	        return r;
+	    };
+
+	    JSPDD.prototype.getDataItemUnit = function getDataItemUnit(item) {
+	        var r = '字段';
+
+	        console.log('getDataItemUnit', r, item.length);
+
+	        if (r.path && r.path.length && typeof r.path[r.path.length - 1] == 'number') {
+	            r = '索引';
+	        }
 
 	        return r;
 	    };
