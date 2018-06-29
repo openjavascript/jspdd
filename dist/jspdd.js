@@ -44,7 +44,7 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(163);
+	module.exports = __webpack_require__(164);
 
 
 /***/ },
@@ -17003,6 +17003,12 @@
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(170), __esModule: true };
+
+/***/ },
+/* 163 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -17016,7 +17022,7 @@
 	};
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17031,11 +17037,11 @@
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
-	var _stringify = __webpack_require__(165);
+	var _stringify = __webpack_require__(162);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
-	var _classCallCheck2 = __webpack_require__(162);
+	var _classCallCheck2 = __webpack_require__(163);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
@@ -17043,7 +17049,7 @@
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _kind = __webpack_require__(164);
+	var _kind = __webpack_require__(165);
 
 	var _kind2 = _interopRequireDefault(_kind);
 
@@ -17248,7 +17254,6 @@
 	        if (item.path && item.path.length && typeof item.path[item.path.length - 1] == 'number') {
 	            r = '索引';
 	        }
-	        console.log('getDataItemUnit', r, item.path);
 
 	        return r;
 	    };
@@ -17424,7 +17429,7 @@
 	exports.default = JSPDD;
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17436,12 +17441,6 @@
 	    'edit': 'E',
 	    'array': 'A'
 	};
-
-/***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(170), __esModule: true };
 
 /***/ },
 /* 166 */

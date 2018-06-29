@@ -44,13 +44,26 @@
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
+
+	var _stringify = __webpack_require__(162);
+
+	var _stringify2 = _interopRequireDefault(_stringify);
 
 	var _example = __webpack_require__(204);
 
 	var _example2 = _interopRequireDefault(_example);
 
+	var _jquery = __webpack_require__(205);
+
+	var _jquery2 = _interopRequireDefault(_jquery);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var srcData = (0, _jquery2.default)('#srcData'),
+	    newData = (0, _jquery2.default)('#newData'),
+	    descData = (0, _jquery2.default)('#descData'),
+	    outputData = (0, _jquery2.default)('#outputData');
 
 	var demo = new _example2.default(["./data/case1/srcdata.json", "./data/case1/newdata.json", "./data/case1/descdata.json"]);
 	demo.userName = 'testUser';
@@ -58,10 +71,17 @@
 
 	demo.run(function (data, pdd) {
 	    var debugData = pdd.debugData();
+	    console.log('debugData', debugData);
 	    console.log('diffData', debugData.SRC.diffData);
 	    console.log('dictData', debugData.SRC.dictData);
 
 	    console.log('data', data);
+
+	    srcData.val((0, _stringify2.default)(debugData.SRC.srcData, null, 4));
+	    newData.val((0, _stringify2.default)(debugData.SRC.newData, null, 4));
+	    descData.val((0, _stringify2.default)(debugData.SRC.descData, null, 4));
+
+	    outputData.val((0, _stringify2.default)(data, null, 4));
 	});
 
 /***/ },
@@ -17020,6 +17040,12 @@
 
 /***/ },
 /* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(170), __esModule: true };
+
+/***/ },
+/* 163 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -17033,7 +17059,7 @@
 	};
 
 /***/ },
-/* 163 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17048,11 +17074,11 @@
 
 	var _typeof3 = _interopRequireDefault(_typeof2);
 
-	var _stringify = __webpack_require__(165);
+	var _stringify = __webpack_require__(162);
 
 	var _stringify2 = _interopRequireDefault(_stringify);
 
-	var _classCallCheck2 = __webpack_require__(162);
+	var _classCallCheck2 = __webpack_require__(163);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
@@ -17060,7 +17086,7 @@
 
 	var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
-	var _kind = __webpack_require__(164);
+	var _kind = __webpack_require__(165);
 
 	var _kind2 = _interopRequireDefault(_kind);
 
@@ -17265,7 +17291,6 @@
 	        if (item.path && item.path.length && typeof item.path[item.path.length - 1] == 'number') {
 	            r = '索引';
 	        }
-	        console.log('getDataItemUnit', r, item.path);
 
 	        return r;
 	    };
@@ -17441,7 +17466,7 @@
 	exports.default = JSPDD;
 
 /***/ },
-/* 164 */
+/* 165 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -17453,12 +17478,6 @@
 	    'edit': 'E',
 	    'array': 'A'
 	};
-
-/***/ },
-/* 165 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(170), __esModule: true };
 
 /***/ },
 /* 166 */
@@ -19085,13 +19104,13 @@
 
 	exports.__esModule = true;
 
-	var _classCallCheck2 = __webpack_require__(162);
+	var _classCallCheck2 = __webpack_require__(163);
 
 	var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
 
-	__webpack_require__(205);
+	__webpack_require__(206);
 
-	var _jspdd = __webpack_require__(163);
+	var _jspdd = __webpack_require__(164);
 
 	var _jspdd2 = _interopRequireDefault(_jspdd);
 
@@ -19145,6 +19164,18 @@
 
 /***/ },
 /* 205 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	exports.__esModule = true;
+
+	var jQuery = window.jQuery;
+
+	exports.default = jQuery;
+
+/***/ },
+/* 206 */
 /***/ function(module, exports) {
 
 	(function(self) {

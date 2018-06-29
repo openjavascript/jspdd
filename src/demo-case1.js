@@ -1,5 +1,12 @@
 
 import Example from './module/example.js';
+import $ from './module/jquery.js';
+
+let srcData = $( '#srcData' )
+    , newData = $( '#newData' )
+    , descData = $( '#descData' )
+    , outputData = $( '#outputData' )
+    ;
 
 let demo = new Example( [ 
     "./data/case1/srcdata.json"
@@ -11,8 +18,16 @@ demo.userId = '111';
 
 demo.run( ( data, pdd )=>{
     let debugData = pdd.debugData();
+    console.log( 'debugData', debugData );
     console.log( 'diffData', debugData.SRC.diffData );
     console.log( 'dictData', debugData.SRC.dictData );
 
     console.log( 'data', data );
+
+    srcData.val( JSON.stringify( debugData.SRC.srcData, null, 4 ) );
+    newData.val( JSON.stringify( debugData.SRC.newData, null, 4 ) );
+    descData.val( JSON.stringify( debugData.SRC.descData, null, 4 ) );
+
+    outputData.val( JSON.stringify( data, null, 4 ) );
 });
+
