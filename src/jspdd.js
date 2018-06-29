@@ -58,33 +58,90 @@ export default class JSPDD {
         
         this.diffData = diff( this.srcData, this.newData );
 
-        this.clone( this.diffData ).map( ( v, k ) => {
+        this.diffData.map( ( v, k ) => {
 
             this.resolvePath( v );
             this.makeMapData( v );
 
-            switch( v.kind ){
-                case KIND.newData: {
-                    this.N.push( v );
-                    break;
-                }
-                case KIND.deleteData: {
-                    this.D.push( v );
-                    break;
-                }
-                case KIND.editData: {
-                    this.E.push( v );
-                    break;
-                }
-                case KIND.arrayeditData: {
-                    this.A.push( v );
-                    break;
-                }
-            }
+            this.procPort( v );
+
         });
 
         return this.result();
     }
+
+    procPort( item ){
+        switch( item.kind ){
+            case KIND['new']: {
+                this.N.push( this.procNew( item ) );
+                break;
+            }
+            case KIND['delete']: {
+                this.D.push( this.procDel( item ) );
+                break;
+            }
+            case KIND['edit']: {
+                this.E.push( this.procEdit( item ) );
+                break;
+            }
+            case KIND['array']: {
+                //this.A.push( this.procArray( item ) );
+
+                switch( item.item.kind ){
+                    case KIND['new']: {
+                        this.N.push( this.procArrayNew( item ) );
+                        break;
+                    }
+                    case KIND['delete']: {
+                        this.D.push( this.procArrayDel( item ) );
+                        break;
+                    }
+                    case KIND['edit']: {
+                        this.E.push( this.procArrayEdit( item ) );
+                        break;
+                    }
+                }
+
+                break;
+            }
+        }
+    }
+
+    procNew( item ){
+        let r = {};
+        return r;
+    }
+
+    procDel( item ){
+        let r = {};
+        return r;
+    }
+
+    procEdit( item ){
+        let r = {};
+        return r;
+    }
+
+    procArray( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayNew( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayDel( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayEdit( item ){
+        let r = {};
+        return r;
+    }
+
 
     reset() {
         this.N              = [];
@@ -94,6 +151,7 @@ export default class JSPDD {
         this.MAP            = {};
         this.ALL_MAP        = {};
         this.DICT           = {};
+        this.RESULT         = {};
 
         this.diffData       = null;
     }
@@ -147,10 +205,9 @@ export default class JSPDD {
 
     resolvePath( item ) {
 
-        console.log( 'xxxxxx', item.kind );
         let path = item.path.slice();
 
-        if( item.kind == KIND.arrayeditData ){
+        if( item.kind == KIND['array']){
             path.push( item.index );
         }
 
@@ -173,10 +230,10 @@ export default class JSPDD {
     debugData() {
         return {
             DESC: {
-                newData:            this.N
-                , deleteData:       this.D
-                , editData:         this.E
-                , arrayeditData:    this.A
+                'new':            this.N
+                , 'delete':       this.D
+                , 'edit':         this.E
+                , 'arrayedit':    this.A
             }
             , SRC: {
                 srcData:    this.srcData
@@ -193,9 +250,24 @@ export default class JSPDD {
     }
 
     result() {
-        let data = {};
+        let r = {};
 
-        return data;
+        this.N 
+            && this.N.length
+            && ( r['add'] = this.N )
+            ;
+
+        this.E 
+            && this.N.length
+            && ( r['edit'] = this.E )
+            ;
+
+        this.D 
+            && this.N.length
+            && ( r['delete'] = this.D )
+            ;
+
+        return r;
     }
 
 }

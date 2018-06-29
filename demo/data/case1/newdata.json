@@ -26,7 +26,8 @@
                             }
                         ]
                     }
-                }
+                },
+                "testNew": "new item"
             },
             "security_config": {
                 "scene_mode": {

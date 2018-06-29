@@ -53,6 +53,9 @@
                         }
                     }
                 }
+                , "testNew": {
+                    "label": "测试条目"
+                }
             },
             "security_config": {
                 "label": "安全防护",

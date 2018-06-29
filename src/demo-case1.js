@@ -8,13 +8,9 @@ let demo = new Example( [
 ]);
 
 demo.run( ( data, pdd )=>{
-    console.log( 'done', Date.now() );
-
     let debugData = pdd.debugData();
-    console.log( 'debugData', debugData );
-    console.log( 'allmap', debugData.SRC.allmap );
+    console.log( 'diffData', debugData.SRC.diffData );
     console.log( 'dictData', debugData.SRC.dictData );
-
 
     console.log( 'data', data );
 });
