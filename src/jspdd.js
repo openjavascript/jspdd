@@ -108,8 +108,25 @@ export default class JSPDD {
     }
 
     procNew( item ){
-        let r = {};
+        let r = this.descDataItem()
+            , dict = this.DICT[item.fullpath]
+            ;
+
+        r.patharray = item.path;
+        r.path      = item.path.join('.');
+
+        if( dict ){
+        }
+
         return r;
+    }
+
+    descDataItem(){
+        return {
+            "label": ""
+            , "path": ""
+            , "patharray": []
+        }
     }
 
     procDel( item ){
@@ -141,7 +158,6 @@ export default class JSPDD {
         let r = {};
         return r;
     }
-
 
     reset() {
         this.N              = [];
