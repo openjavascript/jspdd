@@ -130,6 +130,7 @@ export default class JSPDD {
         let r = this.descDataItem( item )
             , dict = this.getDictData( item )
             ;
+        r.action = 'add';
 
         if( dict ){
             r.label = dict.fulllabel;
@@ -157,6 +158,7 @@ export default class JSPDD {
 
     procDel( item ){
         let r = {};
+        r.action = 'delete';
         return r;
     }
 
@@ -164,6 +166,7 @@ export default class JSPDD {
         let r = this.descDataItem( item )
             , dict = this.getDictData( item )
             ;
+        r.action = 'edit';
 
         if( dict && dict.fulllabel && dict.fulllabel.length ){
             r.label = dict.fulllabel;
@@ -197,16 +200,19 @@ export default class JSPDD {
 
     procArrayNew( item ){
         let r = {};
+        r.action = 'add';
         return r;
     }
 
     procArrayDel( item ){
         let r = {};
+        r.action = 'delete';
         return r;
     }
 
     procArrayEdit( item ){
         let r = {};
+        r.action = 'edit';
         return r;
     }
 

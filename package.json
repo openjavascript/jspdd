@@ -5,7 +5,7 @@
   "author": "qiushaowei <qiushaowei@360.net>",
   "license": "MIT",
   "homepage": "https://github.com/suches/jspdd",
-  "main": "dist/jspdd.js",
+  "main": "src/jspdd.js",
   "jsnext:main": "src/jspdd.js",
   "files": [
     "dist",

@@ -3,6 +3,9 @@
 module.exports = {
     entry: {
         'jspdd': ['./src/jspdd.js']
+
+        , 'tools-dict-generator': './src/tools-dict-generator.js'
+
         , 'demo-case1': './src/demo-case1.js'
     }
     , output: {
