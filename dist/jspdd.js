@@ -17245,11 +17245,10 @@
 	    JSPDD.prototype.getDataItemUnit = function getDataItemUnit(item) {
 	        var r = '字段';
 
-	        console.log('getDataItemUnit', r, item.length);
-
-	        if (r.path && r.path.length && typeof r.path[r.path.length - 1] == 'number') {
+	        if (item.path && item.path.length && typeof item.path[item.path.length - 1] == 'number') {
 	            r = '索引';
 	        }
+	        console.log('getDataItemUnit', r, item.path);
 
 	        return r;
 	    };
