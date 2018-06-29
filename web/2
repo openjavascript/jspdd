@@ -48,6 +48,11 @@
                     <textarea class="form-control" rows="18" id="outputData"></textarea>
                 </div>
             </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <button class="form-control">proc</button>
+                </div>
+            </div>
 
         </div>
     </form>
