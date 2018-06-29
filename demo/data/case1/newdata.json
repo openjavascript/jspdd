@@ -9,6 +9,7 @@
                 "time_sync": {
                     "interval": "900",
                     "inherit": "0"
+                    , "test": [ { "t": 1 } ]
                 },
                 "upgrade": {
                     "inherit": "0",

@@ -125,12 +125,13 @@ export default class JSPDD {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
+            r.desc.push( `新增字段: ${r.datakey.slice( -1 ).join('')}` );
             r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
+            r.desc.push( `新增字段: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `新增数据字段: ${r.datakey.slice( -1 ).join('')}` );
         r.desc.push( `数据类型: ${typeof r.val}` );
         r.desc.push( `字段值: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `操作时间: ${r.d}` );
@@ -138,6 +139,65 @@ export default class JSPDD {
         this.userName && r.desc.push( `操作用户: ${this.userName}` );
         this.userId && r.desc.push( `用户ID: ${this.userId}` );
 
+        return r;
+    }
+
+    procDel( item ){
+        let r = {};
+        return r;
+    }
+
+    procEdit( item ){
+        let r = this.descDataItem( item )
+            , dict = this.DICT[item.fullpath]
+            ;
+
+        if( dict ){
+            r.label = dict.fulllabel;
+        }
+
+
+        if( r.label.length ){
+            r.indict = 1;
+
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
+
+            r.desc.push( `编辑字段: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+        }else{
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
+            r.desc.push( `编辑字段: ${r.datakey.slice( -1 ).join('')}` );
+        }
+        r.desc.push( `数据类型: ${typeof r.val}` );
+        r.desc.push( `字段新值: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `字段旧值: ${this.getDataLiteral(r._val)}` );
+        r.desc.push( `操作时间: ${r.d}` );
+
+        this.userName && r.desc.push( `操作用户: ${this.userName}` );
+        this.userId && r.desc.push( `用户ID: ${this.userId}` );
+
+        return r;
+    }
+
+    procArray( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayNew( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayDel( item ){
+        let r = {};
+        return r;
+    }
+
+    procArrayEdit( item ){
+        let r = {};
         return r;
     }
 
@@ -164,36 +224,6 @@ export default class JSPDD {
             }
             ;
 
-        return r;
-    }
-
-    procDel( item ){
-        let r = {};
-        return r;
-    }
-
-    procEdit( item ){
-        let r = {};
-        return r;
-    }
-
-    procArray( item ){
-        let r = {};
-        return r;
-    }
-
-    procArrayNew( item ){
-        let r = {};
-        return r;
-    }
-
-    procArrayDel( item ){
-        let r = {};
-        return r;
-    }
-
-    procArrayEdit( item ){
-        let r = {};
         return r;
     }
 

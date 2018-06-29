@@ -6,6 +6,7 @@
                 "time_sync": {
                     "interval": "60",
                     "inherit": "0"
+                    , "testar": []
                 },
                 "upgrade": {
                     "inherit": "0",
