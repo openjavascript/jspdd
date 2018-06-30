@@ -41,9 +41,16 @@ export default class JSPDD {
 
         this.reset();
 
+        this.userName;
+        this.userId;
+        this.alldata        = 1;
+        //this.alldata        = 0;
+
+
         this.srcData    = srcData;
         this.newData    = newData;
         this.descData   = descData;
+
 
     }
 
@@ -140,6 +147,9 @@ export default class JSPDD {
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
 
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
+
         return r;
     }
 
@@ -213,6 +223,9 @@ export default class JSPDD {
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
 
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
+
         return r;
     }
 
@@ -243,6 +256,9 @@ export default class JSPDD {
         }
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
+
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
 
         return r;
     }
@@ -275,6 +291,9 @@ export default class JSPDD {
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}新值: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `${dateItemUnit}旧值: ${this.getDataLiteral(r._val)}` );
+
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
 
         return r;
     }
@@ -322,6 +341,9 @@ export default class JSPDD {
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
 
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
+
         return r;
     }
 
@@ -354,6 +376,9 @@ export default class JSPDD {
         r.desc.push( `${dateItemUnit}新值: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `${dateItemUnit}旧值: ${this.getDataLiteral(r._val)}` );
 
+        this.RESULT_ALL.push( r );
+        r.indict && this.RESULT_INDICT.push( r );
+
         return r;
     }
 
@@ -365,9 +390,6 @@ export default class JSPDD {
     }
 
     reset() {
-        this.userName;
-        this.userId;
-
         this.N              = [];
         this.D              = [];
         this.E              = [];
@@ -375,7 +397,9 @@ export default class JSPDD {
         this.MAP            = {};
         this.ALL_MAP        = {};
         this.DICT           = {};
-        this.RESULT         = {};
+
+        this.RESULT_ALL     = [];
+        this.RESULT_INDICT  = [];
 
         this.diffData       = null;
     }
@@ -461,8 +485,8 @@ export default class JSPDD {
     }
 
     result() {
+        /*
         let r = { data: {} };
-
         this.N 
             && this.N.length
             && ( r.data['add'] = this.N )
@@ -483,7 +507,11 @@ export default class JSPDD {
 
         this.userId && 
             ( r[ "userId" ] = this.userId );
+        */
 
+        let r = {};
+        r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
+        r.alldata = this.alldata;
         r.ts = Date.now();
         r.date = moment( r.ts ).format( 'YYYY-MM-DD HH:mm:ss' );
 

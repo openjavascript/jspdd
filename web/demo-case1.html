@@ -10,13 +10,16 @@
 
 <div class="container">
     <div class="row py-3">
-        <div class="col-sm-9">
+        <div class="col-sm-4">
             <h1 >JSPDD demo</h1>
         </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                <button class="btn-primary form-control" id="procBtn">proc</button>
-            </div>
+        <div class="col-sm-8 text-right">
+            <label>
+                <input type="checkbox" id="alldata" />
+                输出所有数据(包含没在字典里的字段)
+            </label>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="btn btn-default btn-primary" id="procBtn">开始处理</button>
         </div>
     </div>
         
@@ -25,19 +28,19 @@
             <div class="col-sm">
                 <div class="form-group">
                     <label>Source Data</label>
-                    <textarea class="form-control" rows="18" id="srcData"></textarea>
+                    <textarea class="form-control" rows="15" id="srcData"></textarea>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <label>New Data</label>
-                    <textarea class="form-control" rows="18" id="newData"></textarea>
+                    <textarea class="form-control" rows="15" id="newData"></textarea>
                 </div>
             </div>
             <div class="col-sm">
                 <div class="form-group">
                     <label>Dictionary Data</label>
-                    <textarea class="form-control" rows="18" id="descData"></textarea>
+                    <textarea class="form-control" rows="15" id="descData"></textarea>
                 </div>
             </div>
         </div>
@@ -45,7 +48,13 @@
             <div class="col-sm">
                 <div class="form-group">
                     <label>Output Data</label>
-                    <textarea class="form-control" rows="18" id="outputData"></textarea>
+                    <textarea class="form-control" rows="15" id="outputData"></textarea>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div><label>Output Text</label></div>
+                <div id="outputText" class="output-text">
+                    tttttttt
                 </div>
             </div>
 

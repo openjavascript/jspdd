@@ -7,6 +7,7 @@ let srcData = $( '#srcData' )
     , descData = $( '#descData' )
     , outputData = $( '#outputData' )
     , procBtn = $( '#procBtn' )
+    , alldata = $( '#alldata' )
     ;
 
 let demo = new Example( [ 
@@ -16,6 +17,7 @@ let demo = new Example( [
 ]);
 demo.userName = 'testUser';
 demo.userId = '111';
+demo.alldata = 1;
 
 demo.run( ( data, pdd )=>{
     let debugData = pdd.debugData();
@@ -29,6 +31,8 @@ demo.run( ( data, pdd )=>{
     newData.val( JSON.stringify( debugData.SRC.newData, null, 4 ) );
     descData.val( JSON.stringify( debugData.SRC.descData, null, 4 ) );
 
+    alldata.prop( 'checked', !!demo.alldata );
+
     outputData.val( JSON.stringify( data, null, 4 ) );
 });
 
@@ -41,9 +45,10 @@ procBtn.on( 'click', function(){
 
     console.clear();
 
-    //console.log( tmpSrc, tmpNew, tmpDesc );
+    console.log( tmpSrc, tmpNew, tmpDesc,  alldata.prop( 'checked' ));
     outputData.val( '' );
     demo.update( tmpSrc, tmpNew, tmpDesc );
+    demo.alldata = alldata.prop( 'checked' ) ? 1 : 0;
     demo.run( ( data, pdd )=>{
         setTimeout( ()=>{
 

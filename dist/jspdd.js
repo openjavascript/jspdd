@@ -17097,6 +17097,12 @@
 
 	        this.reset();
 
+	        this.userName;
+	        this.userId;
+	        this.alldata = 1;
+	        //this.alldata        = 0;
+
+
 	        this.srcData = srcData;
 	        this.newData = newData;
 	        this.descData = descData;
@@ -17198,6 +17204,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17263,6 +17272,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17289,6 +17301,9 @@
 	        }
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
 
 	        return r;
 	    };
@@ -17317,6 +17332,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
 	        r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
+
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
 
 	        return r;
 	    };
@@ -17356,6 +17374,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17385,6 +17406,9 @@
 	        r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
 	        r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17396,9 +17420,6 @@
 	    };
 
 	    JSPDD.prototype.reset = function reset() {
-	        this.userName;
-	        this.userId;
-
 	        this.N = [];
 	        this.D = [];
 	        this.E = [];
@@ -17406,7 +17427,9 @@
 	        this.MAP = {};
 	        this.ALL_MAP = {};
 	        this.DICT = {};
-	        this.RESULT = {};
+
+	        this.RESULT_ALL = [];
+	        this.RESULT_INDICT = [];
 
 	        this.diffData = null;
 	    };
@@ -17498,18 +17521,29 @@
 	    };
 
 	    JSPDD.prototype.result = function result() {
-	        var r = { data: {} };
+	        /*
+	        let r = { data: {} };
+	        this.N 
+	            && this.N.length
+	            && ( r.data['add'] = this.N )
+	            ;
+	         this.E 
+	            && this.N.length
+	            && ( r.data['edit'] = this.E )
+	            ;
+	         this.D 
+	            && this.N.length
+	            && ( r.data['delete'] = this.D )
+	            ;
+	         this.userName && 
+	            ( r[ "userName" ] = this.userName );
+	         this.userId && 
+	            ( r[ "userId" ] = this.userId );
+	        */
 
-	        this.N && this.N.length && (r.data['add'] = this.N);
-
-	        this.E && this.N.length && (r.data['edit'] = this.E);
-
-	        this.D && this.N.length && (r.data['delete'] = this.D);
-
-	        this.userName && (r["userName"] = this.userName);
-
-	        this.userId && (r["userId"] = this.userId);
-
+	        var r = {};
+	        r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
+	        r.alldata = this.alldata;
 	        r.ts = Date.now();
 	        r.date = (0, _moment2.default)(r.ts).format('YYYY-MM-DD HH:mm:ss');
 

@@ -64,11 +64,13 @@
 	    newData = (0, _jquery2.default)('#newData'),
 	    descData = (0, _jquery2.default)('#descData'),
 	    outputData = (0, _jquery2.default)('#outputData'),
-	    procBtn = (0, _jquery2.default)('#procBtn');
+	    procBtn = (0, _jquery2.default)('#procBtn'),
+	    alldata = (0, _jquery2.default)('#alldata');
 
 	var demo = new _example2.default(["./data/case1/srcdata.json", "./data/case1/newdata.json", "./data/case1/descdata.json"]);
 	demo.userName = 'testUser';
 	demo.userId = '111';
+	demo.alldata = 1;
 
 	demo.run(function (data, pdd) {
 	    var debugData = pdd.debugData();
@@ -82,6 +84,8 @@
 	    newData.val((0, _stringify2.default)(debugData.SRC.newData, null, 4));
 	    descData.val((0, _stringify2.default)(debugData.SRC.descData, null, 4));
 
+	    alldata.prop('checked', !!demo.alldata);
+
 	    outputData.val((0, _stringify2.default)(data, null, 4));
 	});
 
@@ -92,9 +96,10 @@
 
 	    console.clear();
 
-	    //console.log( tmpSrc, tmpNew, tmpDesc );
+	    console.log(tmpSrc, tmpNew, tmpDesc, alldata.prop('checked'));
 	    outputData.val('');
 	    demo.update(tmpSrc, tmpNew, tmpDesc);
+	    demo.alldata = alldata.prop('checked') ? 1 : 0;
 	    demo.run(function (data, pdd) {
 	        setTimeout(function () {
 
@@ -17160,6 +17165,12 @@
 
 	        this.reset();
 
+	        this.userName;
+	        this.userId;
+	        this.alldata = 1;
+	        //this.alldata        = 0;
+
+
 	        this.srcData = srcData;
 	        this.newData = newData;
 	        this.descData = descData;
@@ -17261,6 +17272,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17326,6 +17340,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17352,6 +17369,9 @@
 	        }
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
 
 	        return r;
 	    };
@@ -17380,6 +17400,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
 	        r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
 	        r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
+
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
 
 	        return r;
 	    };
@@ -17419,6 +17442,9 @@
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
 	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17448,6 +17474,9 @@
 	        r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
 	        r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
 
+	        this.RESULT_ALL.push(r);
+	        r.indict && this.RESULT_INDICT.push(r);
+
 	        return r;
 	    };
 
@@ -17459,9 +17488,6 @@
 	    };
 
 	    JSPDD.prototype.reset = function reset() {
-	        this.userName;
-	        this.userId;
-
 	        this.N = [];
 	        this.D = [];
 	        this.E = [];
@@ -17469,7 +17495,9 @@
 	        this.MAP = {};
 	        this.ALL_MAP = {};
 	        this.DICT = {};
-	        this.RESULT = {};
+
+	        this.RESULT_ALL = [];
+	        this.RESULT_INDICT = [];
 
 	        this.diffData = null;
 	    };
@@ -17561,18 +17589,29 @@
 	    };
 
 	    JSPDD.prototype.result = function result() {
-	        var r = { data: {} };
+	        /*
+	        let r = { data: {} };
+	        this.N 
+	            && this.N.length
+	            && ( r.data['add'] = this.N )
+	            ;
+	         this.E 
+	            && this.N.length
+	            && ( r.data['edit'] = this.E )
+	            ;
+	         this.D 
+	            && this.N.length
+	            && ( r.data['delete'] = this.D )
+	            ;
+	         this.userName && 
+	            ( r[ "userName" ] = this.userName );
+	         this.userId && 
+	            ( r[ "userId" ] = this.userId );
+	        */
 
-	        this.N && this.N.length && (r.data['add'] = this.N);
-
-	        this.E && this.N.length && (r.data['edit'] = this.E);
-
-	        this.D && this.N.length && (r.data['delete'] = this.D);
-
-	        this.userName && (r["userName"] = this.userName);
-
-	        this.userId && (r["userId"] = this.userId);
-
+	        var r = {};
+	        r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
+	        r.alldata = this.alldata;
 	        r.ts = Date.now();
 	        r.date = (0, _moment2.default)(r.ts).format('YYYY-MM-DD HH:mm:ss');
 
@@ -19245,6 +19284,7 @@
 
 	        this.userName;
 	        this.userId;
+	        this.alldata = 1;
 	    }
 
 	    Example.prototype.run = function run(doneCb) {
@@ -19276,6 +19316,7 @@
 
 	        this.pdd.userName = this.userName;
 	        this.pdd.userId = this.userId;
+	        this.pdd.alldata = this.alldata;
 
 	        return this.pdd.proc();
 	    };
