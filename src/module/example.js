@@ -45,5 +45,8 @@ export default class Example {
 
         return this.pdd.proc();
     }
+
+    outputHtml( data ) {
+    }
 }
 

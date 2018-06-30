@@ -501,12 +501,6 @@ export default class JSPDD {
             && this.N.length
             && ( r.data['delete'] = this.D )
             ;
-
-        this.userName && 
-            ( r[ "userName" ] = this.userName );
-
-        this.userId && 
-            ( r[ "userId" ] = this.userId );
         */
 
         let r = {};
@@ -514,6 +508,13 @@ export default class JSPDD {
         r.alldata = this.alldata;
         r.ts = Date.now();
         r.date = moment( r.ts ).format( 'YYYY-MM-DD HH:mm:ss' );
+
+        this.userName && 
+            ( r[ "userName" ] = this.userName );
+
+        this.userId && 
+            ( r[ "userId" ] = this.userId );
+
 
         return r;
     }

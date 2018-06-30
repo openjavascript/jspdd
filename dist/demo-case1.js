@@ -65,7 +65,9 @@
 	    descData = (0, _jquery2.default)('#descData'),
 	    outputData = (0, _jquery2.default)('#outputData'),
 	    procBtn = (0, _jquery2.default)('#procBtn'),
-	    alldata = (0, _jquery2.default)('#alldata');
+	    alldata = (0, _jquery2.default)('#alldata'),
+	    userName = (0, _jquery2.default)('#userName'),
+	    userId = (0, _jquery2.default)('#userId');
 
 	var demo = new _example2.default(["./data/case1/srcdata.json", "./data/case1/newdata.json", "./data/case1/descdata.json"]);
 	demo.userName = 'testUser';
@@ -84,6 +86,9 @@
 	    newData.val((0, _stringify2.default)(debugData.SRC.newData, null, 4));
 	    descData.val((0, _stringify2.default)(debugData.SRC.descData, null, 4));
 
+	    userName.val(demo.userName);
+	    userId.val(demo.userId);
+
 	    alldata.prop('checked', !!demo.alldata);
 
 	    outputData.val((0, _stringify2.default)(data, null, 4));
@@ -100,6 +105,9 @@
 	    outputData.val('');
 	    demo.update(tmpSrc, tmpNew, tmpDesc);
 	    demo.alldata = alldata.prop('checked') ? 1 : 0;
+	    demo.userName = userName.val().trim();
+	    demo.userid = userId.val().trim();
+
 	    demo.run(function (data, pdd) {
 	        setTimeout(function () {
 
@@ -17603,10 +17611,6 @@
 	            && this.N.length
 	            && ( r.data['delete'] = this.D )
 	            ;
-	         this.userName && 
-	            ( r[ "userName" ] = this.userName );
-	         this.userId && 
-	            ( r[ "userId" ] = this.userId );
 	        */
 
 	        var r = {};
@@ -17614,6 +17618,10 @@
 	        r.alldata = this.alldata;
 	        r.ts = Date.now();
 	        r.date = (0, _moment2.default)(r.ts).format('YYYY-MM-DD HH:mm:ss');
+
+	        this.userName && (r["userName"] = this.userName);
+
+	        this.userId && (r["userId"] = this.userId);
 
 	        return r;
 	    };
@@ -19320,6 +19328,8 @@
 
 	        return this.pdd.proc();
 	    };
+
+	    Example.prototype.outputHtml = function outputHtml(data) {};
 
 	    return Example;
 	}();

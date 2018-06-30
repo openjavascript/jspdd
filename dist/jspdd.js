@@ -17535,10 +17535,6 @@
 	            && this.N.length
 	            && ( r.data['delete'] = this.D )
 	            ;
-	         this.userName && 
-	            ( r[ "userName" ] = this.userName );
-	         this.userId && 
-	            ( r[ "userId" ] = this.userId );
 	        */
 
 	        var r = {};
@@ -17546,6 +17542,10 @@
 	        r.alldata = this.alldata;
 	        r.ts = Date.now();
 	        r.date = (0, _moment2.default)(r.ts).format('YYYY-MM-DD HH:mm:ss');
+
+	        this.userName && (r["userName"] = this.userName);
+
+	        this.userId && (r["userId"] = this.userId);
 
 	        return r;
 	    };
