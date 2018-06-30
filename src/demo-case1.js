@@ -39,12 +39,23 @@ procBtn.on( 'click', function(){
         , tmpDesc  = JSON.parse( descData.val() )
         ;
 
+    console.clear();
+
     //console.log( tmpSrc, tmpNew, tmpDesc );
     outputData.val( '' );
     demo.update( tmpSrc, tmpNew, tmpDesc );
     demo.run( ( data, pdd )=>{
         setTimeout( ()=>{
+
+            let debugData = pdd.debugData();
+            console.log( 'debugData', debugData );
+            console.log( 'diffData', debugData.SRC.diffData );
+            console.log( 'dictData', debugData.SRC.dictData );
+
+            console.log( 'data', data );
+
             outputData.val( JSON.stringify( data, null, 4 ) );
+
         }, 500 );
     });
 

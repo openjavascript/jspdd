@@ -17146,7 +17146,9 @@
 	                }
 	            case _kind2.default['array']:
 	                {
-	                    //this.A.push( this.procArray( item ) );
+	                    if ('index' in item && typeof item.index == 'number' && item.index != item.path[item.path.legnth - 1]) {
+	                        item.path.push(item.index);
+	                    }
 
 	                    switch (item.item.kind) {
 	                        case _kind2.default['new']:
@@ -17171,6 +17173,34 @@
 	        }
 	    };
 
+	    JSPDD.prototype.procArrayNew = function procArrayNew(item) {
+	        var r = this.descDataItem(item, 1),
+	            dict = this.getDictData(item),
+	            dateItemUnit = this.getDataItemUnit(item);
+	        r.action = 'add';
+	        r.actiontype = 'array';
+
+	        if (dict && dict.fulllabel && dict.fulllabel.length) {
+	            r.label = dict.fulllabel;
+	        }
+
+	        if (r.label.length) {
+	            r.indict = 1;
+
+	            r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
+
+	            r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	            r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+	        } else {
+	            r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
+	            r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+	        }
+	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
+	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
+
+	        return r;
+	    };
+
 	    JSPDD.prototype.getDictData = function getDictData(item) {
 	        var r = this.DICT[item.fullpath];
 
@@ -17180,6 +17210,11 @@
 	                typeof v == 'string' && tmp.push(v);
 	                typeof v == 'number' && tmp.push('_array');
 	            });
+	            /*
+	            if( 'index' in item && typeof item.index == 'number' ) {
+	                tmp.push( '_array' );
+	            }
+	            */
 	            tmp.length && (item.abspath = tmp.join('.'));
 
 	            item.abspath && (r = this.DICT[item.abspath]);
@@ -17188,12 +17223,29 @@
 	        return r;
 	    };
 
+	    JSPDD.prototype.descDataItem = function descDataItem(item, isArray) {
+	        var valField = item;
+	        isArray && (valField = item.item);
+	        var ts = Date.now(),
+	            r = {
+	            "label": [],
+	            "datakey": item.path,
+	            "desc": [],
+	            "val": valField.rhs,
+	            "_val": valField.lhs,
+	            "indict": 0
+	        };
+
+	        return r;
+	    };
+
 	    JSPDD.prototype.procNew = function procNew(item) {
 	        var r = this.descDataItem(item),
-	            dict = this.getDictData(item);
+	            dict = this.getDictData(item),
+	            dateItemUnit = this.getDataItemUnit(item);
 	        r.action = 'add';
 
-	        if (dict) {
+	        if (dict && dict.fulllabel && dict.fulllabel.length) {
 	            r.label = dict.fulllabel;
 	        }
 
@@ -17202,14 +17254,14 @@
 
 	            r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-	            r.desc.push('\u65B0\u589E\u5B57\u6BB5: ' + r.datakey.slice(-1).join(''));
+	            r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	            r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
 	        } else {
 	            r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-	            r.desc.push('\u65B0\u589E\u5B57\u6BB5: ' + r.datakey.slice(-1).join(''));
+	            r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
 	        }
 	        r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
-	        r.desc.push('\u5B57\u6BB5\u503C: ' + this.getDataLiteral(r.val));
+	        r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
 	        return r;
 	    };
@@ -17258,17 +17310,6 @@
 	        return r;
 	    };
 
-	    JSPDD.prototype.procArray = function procArray(item) {
-	        var r = {};
-	        return r;
-	    };
-
-	    JSPDD.prototype.procArrayNew = function procArrayNew(item) {
-	        var r = {};
-	        r.action = 'add';
-	        return r;
-	    };
-
 	    JSPDD.prototype.procArrayDel = function procArrayDel(item) {
 	        var r = {};
 	        r.action = 'delete';
@@ -17286,20 +17327,6 @@
 	            return (0, _stringify2.default)(item);
 	        }
 	        return item;
-	    };
-
-	    JSPDD.prototype.descDataItem = function descDataItem(item) {
-	        var ts = Date.now(),
-	            r = {
-	            "label": [],
-	            "datakey": item.path,
-	            "desc": [],
-	            "val": item.rhs,
-	            "_val": item.lhs,
-	            "indict": 0
-	        };
-
-	        return r;
 	    };
 
 	    JSPDD.prototype.reset = function reset() {

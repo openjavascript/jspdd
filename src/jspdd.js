@@ -87,7 +87,9 @@ export default class JSPDD {
                 break;
             }
             case KIND['array']: {
-                //this.A.push( this.procArray( item ) );
+                if( 'index' in item && typeof item.index == 'number' && item.index != item.path[ item.path.legnth - 1] ){
+                    item.path.push( item.index );
+                }
 
                 switch( item.item.kind ){
                     case KIND['new']: {
@@ -109,6 +111,38 @@ export default class JSPDD {
         }
     }
 
+
+    procArrayNew( item ){
+        let r = this.descDataItem( item, 1 )
+            , dict = this.getDictData( item )
+            , dateItemUnit = this.getDataItemUnit( item )
+            ;
+        r.action = 'add';
+        r.actiontype = 'array';
+
+        if( dict && dict.fulllabel && dict.fulllabel.length ){
+            r.label = dict.fulllabel;
+        }
+
+        if( r.label.length ){
+            r.indict = 1;
+
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
+
+            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+        }else{
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
+            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+        }
+        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
+
+        return r;
+    }
+
     getDictData( item ) {
         let r = this.DICT[item.fullpath]
 
@@ -118,6 +152,11 @@ export default class JSPDD {
                 typeof v == 'string' && tmp.push( v );
                 typeof v == 'number' && tmp.push( '_array' );
             });
+            /*
+            if( 'index' in item && typeof item.index == 'number' ) {
+                tmp.push( '_array' );
+            }
+            */
             tmp.length && ( item.abspath = tmp.join('.') );
 
             item.abspath && ( r = this.DICT[ item.abspath ] );
@@ -126,13 +165,34 @@ export default class JSPDD {
         return r;
     }
 
+
+    descDataItem( item, isArray ){
+        let valField = item;
+            isArray && ( valField = item.item );
+        let ts = Date.now()
+            , r = {
+                "label": []
+                , "datakey": item.path
+                , "desc": []
+                , "val": valField.rhs
+                , "_val": valField.lhs
+                , "indict": 0
+            }
+            ;
+
+        return r;
+    }
+
+
+
     procNew( item ){
         let r = this.descDataItem( item )
             , dict = this.getDictData( item )
+            , dateItemUnit = this.getDataItemUnit( item )
             ;
         r.action = 'add';
 
-        if( dict ){
+        if( dict && dict.fulllabel && dict.fulllabel.length ){
             r.label = dict.fulllabel;
         }
 
@@ -143,15 +203,15 @@ export default class JSPDD {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `新增字段: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
             r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `新增字段: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `字段值: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
 
         return r;
     }
@@ -208,16 +268,6 @@ export default class JSPDD {
         return r;
     }
 
-    procArray( item ){
-        let r = {};
-        return r;
-    }
-
-    procArrayNew( item ){
-        let r = {};
-        r.action = 'add';
-        return r;
-    }
 
     procArrayDel( item ){
         let r = {};
@@ -236,21 +286,6 @@ export default class JSPDD {
             return JSON.stringify( item );
         }
         return item;
-    }
-
-    descDataItem( item ){
-        let ts = Date.now()
-            , r = {
-                "label": []
-                , "datakey": item.path
-                , "desc": []
-                , "val": item.rhs
-                , "_val": item.lhs
-                , "indict": 0
-            }
-            ;
-
-        return r;
     }
 
     reset() {
