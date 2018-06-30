@@ -13,6 +13,7 @@
                     , "testar1": [ 12 ]
                     , "testar2": [ { "a": 112 } ]
                     , "testar3": [ 1111, 1114 ]
+                    , "testar4": [ [11112] ]
                 },
                 "upgrade": {
                     "inherit": "0",

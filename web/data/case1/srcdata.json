@@ -10,6 +10,7 @@
                     , "testar1": [ 11 ]
                     , "testar2": [ { "a": 111 } ]
                     , "testar3": [ 1111, 1112 ]
+                    , "testar4": [ [11111] ]
                 },
                 "upgrade": {
                     "inherit": "0",
@@ -29,7 +30,7 @@
                                 "stime": "00:00"
                             }
                         ],
-                        "inherit": "0"
+                        "inherit": 0
                     }
                 }
             },
