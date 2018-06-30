@@ -40,6 +40,7 @@ demo.run( ( data, pdd )=>{
     alldata.prop( 'checked', !!demo.alldata );
 
     outputData.val( JSON.stringify( data, null, 4 ) );
+    outputText.html( demo.outputHtml( data ) );
 });
 
 
@@ -73,6 +74,7 @@ procBtn.on( 'click', function(){
             console.log( 'data', data );
 
             outputData.val( JSON.stringify( data, null, 4 ) );
+            outputText.html( demo.outputHtml( data ) );
 
         }, 500 );
     });

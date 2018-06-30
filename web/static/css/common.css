@@ -4,3 +4,28 @@
         max-width: 90%;
     }
 }
+
+/*
+@action-add: #28a745;
+@action-edit: #007bff;
+@action-delete: #dc3545;
+
+@actiontype-array: #6c757d;
+*/
+
+
+div.outputtext-box .action-add {
+    color: #28a745;
+}
+
+div.outputtext-box .action-edit {
+    color: #007bff;
+}
+
+div.outputtext-box .action-delete {
+    color: #dc3545;
+}
+
+div.outputtext-box .actiontype-array {
+    background-color: rgba(108, 117, 125, .1);
+}
