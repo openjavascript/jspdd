@@ -10,14 +10,11 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js']
-        , alias: {
-            'jspdd-basedata': '../../jspdd-basedata/dist/basedata.js'
-        }
 
     },
     module: {
         loaders: [
-            { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules/ }
+            { test: /\.js$/, loaders: ['babel-loader'] }
         ]
     }
 };

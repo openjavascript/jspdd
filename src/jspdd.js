@@ -1,7 +1,14 @@
 
 
 import diff from 'deep-diff';
-import KIND from 'jspdd-kind';
+//import KIND from 'jspdd-kind';
+
+const KIND = {
+    'new':              'N'
+    , 'delete':         'D'
+    , 'edit':           'E'
+    , 'array':          'A'
+};
 
 import moment from 'moment';
 
@@ -78,8 +85,6 @@ export default class JSPDD {
     }
 
     procPort( item ){
-        console.log( item.kind, Date.now() );
-        console.dir(  KIND );
         switch( item.kind ){
             case KIND['new']: {
                 this.N.push( this.procNew( item ) );
@@ -149,8 +154,6 @@ export default class JSPDD {
 
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
-
-        console.log( 9999999999999 );
 
         return r;
     }
@@ -509,9 +512,6 @@ export default class JSPDD {
         this.alldata = 1;
         r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
         r.alldata = this.alldata;
-        console.log( 111111111111 );
-        console.dir( this.RESULT_ALL );
-        console.dir( this.RESULT_INDICT );
         r.ts = Date.now();
         r.date = moment( r.ts ).format( 'YYYY-MM-DD HH:mm:ss' );
 
