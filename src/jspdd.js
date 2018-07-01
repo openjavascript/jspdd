@@ -1,7 +1,7 @@
 
 import diff from 'deep-diff';
-import KIND from './module/kind.js';
-import BaseData from './module/basedata.js';
+import KIND from 'jspdd-kind';
+import BaseData from 'jspdd-basedata';
 
 import moment from 'moment';
 
