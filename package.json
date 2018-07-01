@@ -37,7 +37,7 @@
     "eslint": "^1.7.1",
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^3.16.1",
-    "jspdd-kind": "^1.0.3",
+    "jspdd-kind": "^1.0.4",
     "moment": "^2.22.2",
     "webpack": "<=1.12.12"
   }

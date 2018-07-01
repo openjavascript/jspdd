@@ -40,12 +40,13 @@ export default class JSPDD {
         console.log( 'descData:', descData  );
         */
 
-        this.reset();
 
         this.api;
         this.userName = '';
         this.userId = '';
         this.alldata = 1;
+
+        this.reset();
 
         this.srcData    = srcData;
         this.newData    = newData;
@@ -66,7 +67,6 @@ export default class JSPDD {
         this.diffData = diff( this.srcData, this.newData );
 
         this.diffData.map( ( v, k ) => {
-
             this.resolvePath( v );
             this.makeMapData( v );
 
@@ -78,6 +78,8 @@ export default class JSPDD {
     }
 
     procPort( item ){
+        console.log( item.kind, Date.now() );
+        console.dir(  KIND );
         switch( item.kind ){
             case KIND['new']: {
                 this.N.push( this.procNew( item ) );
@@ -147,6 +149,8 @@ export default class JSPDD {
 
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
+
+        console.log( 9999999999999 );
 
         return r;
     }
@@ -502,8 +506,12 @@ export default class JSPDD {
         */
 
         let r = {};
+        this.alldata = 1;
         r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
         r.alldata = this.alldata;
+        console.log( 111111111111 );
+        console.dir( this.RESULT_ALL );
+        console.dir( this.RESULT_INDICT );
         r.ts = Date.now();
         r.date = moment( r.ts ).format( 'YYYY-MM-DD HH:mm:ss' );
 
