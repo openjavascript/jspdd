@@ -1,14 +1,16 @@
 
 
 import diff from 'deep-diff';
-//import KIND from 'jspdd-kind';
-
+import KIND from 'jspdd-kind';
+import BaseData from 'jspdd-basedata';
+/*
 const KIND = {
     'new':              'N'
     , 'delete':         'D'
     , 'edit':           'E'
     , 'array':          'A'
 };
+*/
 
 import moment from 'moment';
 
@@ -37,8 +39,9 @@ import moment from 'moment';
         change that occurred at the array index
 */
 
-export default class JSPDD {
+export default class JSPDD extends BaseData {
     constructor( srcData, newData, descData ) {
+        super();
         /*
         console.log( 'JSPDD', Date.now() );
 

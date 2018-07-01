@@ -12,6 +12,14 @@ var _deepDiff = require('deep-diff');
 
 var _deepDiff2 = _interopRequireDefault(_deepDiff);
 
+var _jspddKind = require('jspdd-kind');
+
+var _jspddKind2 = _interopRequireDefault(_jspddKind);
+
+var _jspddBasedata = require('jspdd-basedata');
+
+var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
+
 var _moment = require('moment');
 
 var _moment2 = _interopRequireDefault(_moment);
@@ -20,14 +28,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//import KIND from 'jspdd-kind';
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-var KIND = {
-    'new': 'N',
-    'delete': 'D',
-    'edit': 'E',
-    'array': 'A'
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+/*
+const KIND = {
+    'new':              'N'
+    , 'delete':         'D'
+    , 'edit':           'E'
+    , 'array':          'A'
 };
+*/
 
 /*
     Differences are reported as one or more change records. 
@@ -54,7 +65,9 @@ var KIND = {
         change that occurred at the array index
 */
 
-var JSPDD = function () {
+var JSPDD = function (_BaseData) {
+    _inherits(JSPDD, _BaseData);
+
     function JSPDD(srcData, newData, descData) {
         _classCallCheck(this, JSPDD);
 
@@ -65,16 +78,19 @@ var JSPDD = function () {
         console.log( 'descData:', descData  );
         */
 
-        this.api;
-        this.userName = '';
-        this.userId = '';
-        this.alldata = 1;
+        var _this = _possibleConstructorReturn(this, (JSPDD.__proto__ || Object.getPrototypeOf(JSPDD)).call(this));
 
-        this.reset();
+        _this.api;
+        _this.userName = '';
+        _this.userId = '';
+        _this.alldata = 1;
 
-        this.srcData = srcData;
-        this.newData = newData;
-        this.descData = descData;
+        _this.reset();
+
+        _this.srcData = srcData;
+        _this.newData = newData;
+        _this.descData = descData;
+        return _this;
     }
 
     _createClass(JSPDD, [{
@@ -85,7 +101,7 @@ var JSPDD = function () {
     }, {
         key: 'proc',
         value: function proc() {
-            var _this = this;
+            var _this2 = this;
 
             this.reset();
 
@@ -95,10 +111,10 @@ var JSPDD = function () {
             this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
             this.diffData.map(function (v, k) {
-                _this.resolvePath(v);
-                _this.makeMapData(v);
+                _this2.resolvePath(v);
+                _this2.makeMapData(v);
 
-                _this.procPort(v);
+                _this2.procPort(v);
             });
 
             return this.result();
@@ -107,39 +123,39 @@ var JSPDD = function () {
         key: 'procPort',
         value: function procPort(item) {
             switch (item.kind) {
-                case KIND['new']:
+                case _jspddKind2.default['new']:
                     {
                         this.N.push(this.procNew(item));
                         break;
                     }
-                case KIND['delete']:
+                case _jspddKind2.default['delete']:
                     {
                         this.D.push(this.procDel(item));
                         break;
                     }
-                case KIND['edit']:
+                case _jspddKind2.default['edit']:
                     {
                         this.E.push(this.procEdit(item));
                         break;
                     }
-                case KIND['array']:
+                case _jspddKind2.default['array']:
                     {
                         if ('index' in item && typeof item.index == 'number' && item.index != item.path[item.path.legnth - 1]) {
                             item.path.push(item.index);
                         }
 
                         switch (item.item.kind) {
-                            case KIND['new']:
+                            case _jspddKind2.default['new']:
                                 {
                                     this.N.push(this.procArrayNew(item));
                                     break;
                                 }
-                            case KIND['delete']:
+                            case _jspddKind2.default['delete']:
                                 {
                                     this.D.push(this.procArrayDel(item));
                                     break;
                                 }
-                            case KIND['edit']:
+                            case _jspddKind2.default['edit']:
                                 {
                                     this.E.push(this.procArrayEdit(item));
                                     break;
@@ -419,7 +435,7 @@ var JSPDD = function () {
     }, {
         key: 'makeDict',
         value: function makeDict(data) {
-            var _this2 = this;
+            var _this3 = this;
 
             var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
             var label = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -435,23 +451,23 @@ var JSPDD = function () {
 
                             var fullpath = spath.join('.');
 
-                            _this2.DICT[fullpath] = {
+                            _this3.DICT[fullpath] = {
                                 item: item
                             };
 
                             if (item.label) {
                                 slabel.push(item.label);
-                                _this2.DICT[fullpath].parentlabel = label;
-                                _this2.DICT[fullpath].fulllabel = slabel;
+                                _this3.DICT[fullpath].parentlabel = label;
+                                _this3.DICT[fullpath].fulllabel = slabel;
                             } else {
                                 if (typeof item == 'string') {
                                     slabel.push(item);
-                                    _this2.DICT[fullpath].parentlabel = label;
-                                    _this2.DICT[fullpath].fulllabel = slabel;
+                                    _this3.DICT[fullpath].parentlabel = label;
+                                    _this3.DICT[fullpath].fulllabel = slabel;
                                 }
                             }
 
-                            _this2.makeDict(item, spath, slabel);
+                            _this3.makeDict(item, spath, slabel);
                         });
                         break;
                     }
@@ -478,7 +494,7 @@ var JSPDD = function () {
 
             var path = item.path.slice();
 
-            if (item.kind == KIND['array']) {
+            if (item.kind == _jspddKind2.default['array']) {
                 path.push(item.index);
             }
 
@@ -541,6 +557,6 @@ var JSPDD = function () {
     }]);
 
     return JSPDD;
-}();
+}(_jspddBasedata2.default);
 
 exports.default = JSPDD;
