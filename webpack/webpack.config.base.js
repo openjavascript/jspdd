@@ -2,7 +2,7 @@
 
 module.exports = {
     entry: {
-        'jspdd': './src/jspdd.js'
+        'jspdd': ['./src/jspdd.js']
     }
     , output: {
         filename: '[name].js'
@@ -10,6 +10,10 @@ module.exports = {
     },
     resolve: {
         extensions: ['', '.js']
+        , alias: {
+            'jspdd-basedata': '../../jspdd-basedata/dist/basedata.js'
+        }
+
     },
     module: {
         loaders: [

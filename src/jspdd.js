@@ -2,7 +2,6 @@
 
 import diff from 'deep-diff';
 import KIND from 'jspdd-kind';
-import BaseData from 'jspdd-basedata';
 
 import moment from 'moment';
 
@@ -31,9 +30,8 @@ import moment from 'moment';
         change that occurred at the array index
 */
 
-export default class JSPDD extends BaseData {
+export default class JSPDD {
     constructor( srcData, newData, descData ) {
-        super();
         /*
         console.log( 'JSPDD', Date.now() );
 
@@ -43,6 +41,11 @@ export default class JSPDD extends BaseData {
         */
 
         this.reset();
+
+        this.api;
+        this.userName = '';
+        this.userId = '';
+        this.alldata = 1;
 
         this.srcData    = srcData;
         this.newData    = newData;

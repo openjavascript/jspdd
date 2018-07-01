@@ -2,7 +2,7 @@
   "name": "jspdd",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/jspdd.js",
+  "main": "src/jspdd.js",
   "scripts": {
     "lint": "eslint src test --fix",
     "dev": "webpack --config webpack/webpack.config.development.js --watch",
@@ -37,7 +37,6 @@
     "eslint": "^1.7.1",
     "eslint-config-rackt": "^1.1.1",
     "eslint-plugin-react": "^3.16.1",
-    "jspdd-basedata": "^1.0.2",
     "jspdd-kind": "^1.0.3",
     "moment": "^2.22.2",
     "webpack": "<=1.12.12"
