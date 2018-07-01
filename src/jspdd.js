@@ -1,6 +1,7 @@
 
 import diff from 'deep-diff';
 import KIND from './module/kind.js';
+import BaseData from './module/basedata.js';
 
 import moment from 'moment';
 
@@ -29,8 +30,9 @@ import moment from 'moment';
         change that occurred at the array index
 */
 
-export default class JSPDD {
+export default class JSPDD extends BaseData {
     constructor( srcData, newData, descData ) {
+        super();
         /*
         console.log( 'JSPDD', Date.now() );
 
@@ -41,17 +43,9 @@ export default class JSPDD {
 
         this.reset();
 
-        this.userName;
-        this.userId;
-        this.alldata        = 1;
-        //this.alldata        = 0;
-
-
         this.srcData    = srcData;
         this.newData    = newData;
         this.descData   = descData;
-
-
     }
 
     clone( data ) {
@@ -62,7 +56,7 @@ export default class JSPDD {
 
         this.reset();
 
-        console.log( 'descDAta', this.descData );
+        //console.log( 'descDAta', this.descData );
         this.makeDict( this.descData );
         
         this.diffData = diff( this.srcData, this.newData );

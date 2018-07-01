@@ -1,20 +1,22 @@
 
 import 'whatwg-fetch';
+
+import BaseData from './basedata.js';
+
 import JSPDD from '../jspdd.js';
 
-
-export default class Example {
+export default class Example extends BaseData {
     constructor( api ) {
+        super();
         this.DATA = [];
         this.api = api;
         this.pdd;
-
-        this.userName;
-        this.userId;
-        this.alldata = 1;
     }
     run( doneCb ){
-        if( !this.api.length ) {
+        if( !( this.api && this.api.length ) ) {
+            
+            if( !(this.DATA && this.DATA.length ) ) return;
+
             let result = this.proc();
             doneCb && doneCb( result, this.pdd );
             return;
@@ -29,6 +31,10 @@ export default class Example {
             this.DATA.push( json );
             this.run( doneCb );
         })
+    }
+
+    updateAPI( api ) {
+        this.api = api;
     }
 
     update( srcData, newData, descData ) {
