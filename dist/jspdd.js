@@ -542,7 +542,6 @@ var JSPDD = function (_BaseData) {
             */
 
             var r = {};
-            this.alldata = 1;
             r.data = this.alldata ? this.RESULT_ALL : this.RESULT_INDICT;
             r.alldata = this.alldata;
             r.ts = Date.now();
