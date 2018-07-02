@@ -195,29 +195,7 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
-
-            return r;
-        }
-    }, {
-        key: 'getDictData',
-        value: function getDictData(item) {
-            var r = this.DICT[item.fullpath];
-
-            if (!r && /[0-9]/.test(item.fullpath)) {
-                var tmp = [];
-                item.path.map(function (v) {
-                    typeof v == 'string' && tmp.push(v);
-                    typeof v == 'number' && tmp.push('_array');
-                });
-                /*
-                if( 'index' in item && typeof item.index == 'number' ) {
-                    tmp.push( '_array' );
-                }
-                */
-                tmp.length && (item.abspath = tmp.join('.'));
-
-                item.abspath && (r = this.DICT[item.abspath]);
-            }
+            !r.indict && this.RESULT_OUTDICT.push(r);
 
             return r;
         }
@@ -266,6 +244,37 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
+            !r.indict && this.RESULT_OUTDICT.push(r);
+
+            return r;
+        }
+    }, {
+        key: 'getDictData',
+        value: function getDictData(item) {
+            var r = this.DICT[item.fullpath];
+
+            if (!r && /[0-9]/.test(item.fullpath)) {
+                var tmp = [];
+                item.path.map(function (v) {
+                    typeof v == 'string' && tmp.push(v);
+                    typeof v == 'number' && tmp.push('_array');
+                });
+                /*
+                if( 'index' in item && typeof item.index == 'number' ) {
+                    tmp.push( '_array' );
+                }
+                */
+                tmp.length && (item.abspath = tmp.join('.'));
+
+                item.abspath && (r = this.DICT[item.abspath]);
+            }
+
+            if (!(r && r.fulllabel && r.fulllabel.length) && item.fullpath) {
+                var _tmp = this.DICT[item.fullpath + '._array'];
+                if (_tmp && _tmp.fulllabel && _tmp.fulllabel.length) {
+                    r = _tmp;
+                }
+            }
 
             return r;
         }
@@ -281,13 +290,17 @@ var JSPDD = function (_BaseData) {
                 r.label = dict.fulllabel;
             }
 
-            if (r.label.length) {
+            var label = r.label;
+
+            //console.log( label, item, dict );
+
+            if (label.length) {
                 r.indict = 1;
 
-                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
+                label.slice(0, -1).length && r.desc.push('' + label.slice(0, -1).join(', '));
 
                 r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
                 r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
@@ -297,6 +310,10 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
+            !r.indict && this.RESULT_OUTDICT.push(r);
+
+            //console.log( 'when deleting' );
+            //console.log( item );
 
             return r;
         }
@@ -329,6 +346,7 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
+            !r.indict && this.RESULT_OUTDICT.push(r);
 
             return r;
         }
@@ -372,6 +390,7 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
+            !r.indict && this.RESULT_OUTDICT.push(r);
 
             return r;
         }
@@ -405,6 +424,7 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
+            !r.indict && this.RESULT_OUTDICT.push(r);
 
             return r;
         }
@@ -429,6 +449,7 @@ var JSPDD = function (_BaseData) {
 
             this.RESULT_ALL = [];
             this.RESULT_INDICT = [];
+            this.RESULT_OUTDICT = [];
 
             this.diffData = null;
         }
@@ -508,7 +529,10 @@ var JSPDD = function (_BaseData) {
                     'new': this.N,
                     'delete': this.D,
                     'edit': this.E,
-                    'arrayedit': this.A
+                    'arrayedit': this.A,
+                    'RESULT_ALL': this.RESULT_ALL,
+                    'RESULT_INDICT': this.RESULT_INDICT,
+                    'RESULT_OUTDICT': this.RESULT_OUTDICT
                 },
                 SRC: {
                     srcData: this.srcData,
