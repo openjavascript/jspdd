@@ -485,6 +485,9 @@ var JSPDD = function (_BaseData) {
                                     slabel.push(item);
                                     _this3.DICT[fullpath].parentlabel = label;
                                     _this3.DICT[fullpath].fulllabel = slabel;
+                                } else {
+                                    _this3.DICT[fullpath].parentlabel = label;
+                                    _this3.DICT[fullpath].fulllabel = slabel;
                                 }
                             }
 

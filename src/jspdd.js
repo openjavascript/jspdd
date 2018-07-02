@@ -456,6 +456,9 @@ export default class JSPDD extends BaseData {
                             slabel.push( item );
                             this.DICT[ fullpath ].parentlabel= label;
                             this.DICT[ fullpath ].fulllabel = slabel;
+                        }else{
+                            this.DICT[ fullpath ].parentlabel= label;
+                            this.DICT[ fullpath ].fulllabel = slabel;
                         }
                     }
 
