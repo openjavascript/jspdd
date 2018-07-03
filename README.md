@@ -46,12 +46,12 @@ newData:    修改后的数据
 
 descData:   描述数据
 
-### 属性 jspdd.alldata
+### jspdd.alldata
     输出结果是否包含所有数据， 1 = 包含所有数据， 0 = 只包含字典里的数据
     
     默认值 = 1
 
-### 方法 jspdd.proc():Object
+### jspdd.proc():Object
 执行分析处理, 并返回处理结果
 
     {
@@ -70,7 +70,7 @@ descData:   描述数据
         "date": "2018-07-03 17:23:57"
     }
     
-### 方法 jspdd.debugData():Object
+### jspdd.debugData():Object
 输出调试数据，用于调试用，通常在执行 jspdd.proc后调用。
 
     {
