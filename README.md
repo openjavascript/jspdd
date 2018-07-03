@@ -21,20 +21,20 @@
         , newData = { b: 2 }
         ;
 
-    let pdd = new JSPDD( srcData, newData );
+    let jspdd = new JSPDD( srcData, newData );
 
     //从原始数据和变更数据，生成数据字典
-    pdd.descData = JSPDD.generatorDict( JSON.parse( JSON.stringify( srcData ) ), newData );
+    jspdd.descData = JSPDD.generatorDict( JSON.parse( JSON.stringify( srcData ) ), newData );
 
-    pdd.userName   = 'test username';   //设置用户名(可选)
-    pdd.userId     = 'test userid';     //设置用户ID(可选) 
-    pdd.alldata    = 1;                 //结果是否包含所有数据( 0:仅出现在字典的数据， 1:所有数据 )，默认1
+    jspdd.userName   = 'test username';   //设置用户名(可选)
+    jspdd.userId     = 'test userid';     //设置用户ID(可选) 
+    jspdd.alldata    = 1;                 //结果是否包含所有数据( 0:仅出现在字典的数据， 1:所有数据 )，默认1
 
     //执行处理操作，并返回处理结果
-    let result = pdd.proc();
+    let result = jspdd.proc();
 
     //打印相关内容到控制台
-    console.log( 'pdd:', pdd );
+    console.log( 'jspdd:', jspdd );     
     console.log( 'result:', result );
     
 ## API
@@ -45,6 +45,11 @@ srcData:    原始数据
 newData:    修改后的数据
 
 descData:   描述数据
+
+### 属性 alldata
+    输出结果是否包含所有数据， 1 = 包含所有数据， 0 = 只包含字典里的数据
+    
+    默认值 = 1
 
 ### 方法 proc():Object
 执行分析处理, 并返回处理结果
