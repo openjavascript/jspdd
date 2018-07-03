@@ -50,13 +50,6 @@ export default class JSPDD extends BaseData {
         console.log( 'newData:', newData );
         console.log( 'descData:', descData  );
         */
-
-
-        this.api;
-        this.userName = '';
-        this.userId = '';
-        this.alldata = 1;
-
         this.reset();
 
         this.srcData    = srcData;
@@ -140,6 +133,8 @@ export default class JSPDD extends BaseData {
             r.label = dict.fulllabel;
         }
 
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
+
         if( r.label.length ){
             r.indict = 1;
 
@@ -191,6 +186,7 @@ export default class JSPDD extends BaseData {
             r.label = dict.fulllabel;
         }
 
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
 
         if( r.label.length ){
             r.indict = 1;
@@ -255,6 +251,8 @@ export default class JSPDD extends BaseData {
             r.label = dict.fulllabel;
         }
 
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
+
         let label = r.label;
 
         //console.log( label, item, dict );
@@ -295,6 +293,8 @@ export default class JSPDD extends BaseData {
         if( dict && dict.fulllabel && dict.fulllabel.length ){
             r.label = dict.fulllabel;
         }
+
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
 
 
         if( r.label.length ){
@@ -348,6 +348,8 @@ export default class JSPDD extends BaseData {
             r.label = dict.fulllabel;
         }
 
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
+
         if( r.label.length ){
             r.indict = 1;
 
@@ -382,6 +384,8 @@ export default class JSPDD extends BaseData {
         if( dict && dict.fulllabel && dict.fulllabel.length ){
             r.label = dict.fulllabel;
         }
+
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
 
         if( r.label.length ){
             r.indict = 1;
@@ -560,6 +564,7 @@ JSPDD.TEXT = {
     , "OLD_VAL": "旧值"
     , "FIELD_DETAIL": "字段描述"
     , "DATA_TYPE": "数据类型"
+    , "DATA_PATH": "数据路径"
     , "FIELD": "字段"
     , "INDEX": "索引"
     , "VAL": "值"

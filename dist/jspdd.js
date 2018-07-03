@@ -82,13 +82,7 @@ var JSPDD = function (_BaseData) {
         console.log( 'newData:', newData );
         console.log( 'descData:', descData  );
         */
-
         var _this = _possibleConstructorReturn(this, (JSPDD.__proto__ || Object.getPrototypeOf(JSPDD)).call(this));
-
-        _this.api;
-        _this.userName = '';
-        _this.userId = '';
-        _this.alldata = 1;
 
         _this.reset();
 
@@ -184,6 +178,8 @@ var JSPDD = function (_BaseData) {
                 r.label = dict.fulllabel;
             }
 
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
             if (r.label.length) {
                 r.indict = 1;
 
@@ -232,6 +228,8 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
             if (r.label.length) {
                 r.indict = 1;
@@ -295,6 +293,8 @@ var JSPDD = function (_BaseData) {
                 r.label = dict.fulllabel;
             }
 
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
             var label = r.label;
 
             //console.log( label, item, dict );
@@ -333,6 +333,8 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
             if (r.label.length) {
                 r.indict = 1;
@@ -379,6 +381,8 @@ var JSPDD = function (_BaseData) {
                 r.label = dict.fulllabel;
             }
 
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
             if (r.label.length) {
                 r.indict = 1;
 
@@ -411,6 +415,8 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
             if (r.label.length) {
                 r.indict = 1;
@@ -601,6 +607,7 @@ JSPDD.TEXT = {
     "OLD_VAL": "旧值",
     "FIELD_DETAIL": "字段描述",
     "DATA_TYPE": "数据类型",
+    "DATA_PATH": "数据路径",
     "FIELD": "字段",
     "INDEX": "索引",
     "VAL": "值",
