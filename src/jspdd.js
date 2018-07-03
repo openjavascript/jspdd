@@ -573,7 +573,7 @@ JSPDD.TEXT = {
 };
 
 
-JSPDD.generatorDict = function ( sdata, ndata, ddata ) {
+JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {} ) {
     let r, combData = $.extend( true, sdata, ndata );
     let prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
 

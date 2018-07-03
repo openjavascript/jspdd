@@ -615,7 +615,11 @@ JSPDD.TEXT = {
     "DEFAULT_DICT_TEXT": "文字描述 "
 };
 
-JSPDD.generatorDict = function (sdata, ndata, ddata) {
+JSPDD.generatorDict = function () {
+    var sdata = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var ndata = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var ddata = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
     var r = void 0,
         combData = $.extend(true, sdata, ndata);
     var prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
