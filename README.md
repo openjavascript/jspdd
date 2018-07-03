@@ -52,10 +52,10 @@ descData:   描述数据
     默认值 = 1
 
 ### userName: String  
-设置用户名
+设置用户名，可选值
 
 ### userId: String 
-设置用户ID
+设置用户ID，可选值
 
 ### proc():Object
 执行分析处理, 并返回处理结果
