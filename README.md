@@ -36,6 +36,27 @@
     //打印相关内容到控制台
     console.log( 'pdd:', pdd );
     console.log( 'result:', result );
+    
+## API
+
+### 构造函数 JSPDD( srcData, newData, descData );
+srcData:    原始数据
+
+newData:    修改后的数据
+
+descData:   描述数据
+
+### 方法 proc():Object
+执行分析处理, 并返回处理结果
+
+### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ):Object
+从sdata, ndata 生成字典描述数据ddata
+
+sdata:    原始数据
+
+ndata:    修改后的数据
+
+ddata:   描述数据
 
 ## 相关演示
 
