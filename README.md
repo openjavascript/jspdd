@@ -51,6 +51,12 @@ descData:   描述数据
     
     默认值 = 1
 
+### userName: String  
+设置用户名
+
+### userId: String 
+设置用户ID
+
 ### proc():Object
 执行分析处理, 并返回处理结果
 
@@ -70,7 +76,7 @@ descData:   描述数据
         "date": "2018-07-03 17:23:57"
     }
     
-### debugData():Object
+### debugData(): Object
 输出调试数据，用于调试用，通常在执行 jspdd.proc后调用。
 
     {
@@ -96,7 +102,7 @@ descData:   描述数据
         }
     }
 
-### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ):Object
+### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ): Object
 从sdata, ndata 生成字典描述数据ddata
 
 sdata:    原始数据
