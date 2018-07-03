@@ -5,6 +5,15 @@
 
 可记录所有字段的 增/删/改 操作。
 
+## install
+    npm install jspdd --save
+
+## importing
+
+    import JSPDD from 'jspdd';
+    
+## example
+    
 
 ## 相关演示
 
