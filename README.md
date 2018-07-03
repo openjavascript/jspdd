@@ -51,7 +51,14 @@ descData:   描述数据
 
     {
         "data": [
-           ...{...}
+            ...{
+                "label": [...],
+                "datakey": [...],
+                "desc": [...],
+                "_val": null,
+                "indict": 1,
+                "action": "delete"
+            }
         ],
         "alldata": 1,
         "ts": 1530609837718,
