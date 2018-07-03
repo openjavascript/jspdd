@@ -8,6 +8,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var _deepDiff = require('deep-diff');
 
 var _deepDiff2 = _interopRequireDefault(_deepDiff);
@@ -20,9 +24,9 @@ var _jspddBasedata = require('jspdd-basedata');
 
 var _jspddBasedata2 = _interopRequireDefault(_jspddBasedata);
 
-var _moment = require('moment');
+var _jsonTraverser = require('json-traverser');
 
-var _moment2 = _interopRequireDefault(_moment);
+var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31,6 +35,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 /*
 const KIND = {
     'new':              'N'
@@ -184,14 +189,14 @@ var JSPDD = function (_BaseData) {
 
                 r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-                r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDataLiteral(r.val));
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
@@ -233,13 +238,13 @@ var JSPDD = function (_BaseData) {
 
                 r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-                r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u65B0\u589E' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
             r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
 
             this.RESULT_ALL.push(r);
@@ -299,13 +304,13 @@ var JSPDD = function (_BaseData) {
 
                 label.slice(0, -1).length && r.desc.push('' + label.slice(0, -1).join(', '));
 
-                r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
             r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
 
             this.RESULT_ALL.push(r);
@@ -334,15 +339,15 @@ var JSPDD = function (_BaseData) {
 
                 r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-                r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
-            r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
-            r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
@@ -353,10 +358,10 @@ var JSPDD = function (_BaseData) {
     }, {
         key: 'getDataItemUnit',
         value: function getDataItemUnit(item) {
-            var r = '字段';
+            var r = '' + JSPDD.TEXT.FIELD;
 
             if (item.path && item.path.length && typeof item.path[item.path.length - 1] == 'number') {
-                r = '索引';
+                r = '' + JSPDD.TEXT.INDEX;
             }
 
             return r;
@@ -379,13 +384,13 @@ var JSPDD = function (_BaseData) {
 
                 r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-                r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u5220\u9664' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r._val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
             r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
 
             this.RESULT_ALL.push(r);
@@ -412,15 +417,15 @@ var JSPDD = function (_BaseData) {
 
                 r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
 
-                r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push('\u5B57\u6BB5\u63CF\u8FF0: ' + r.label.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
             } else {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('\u7F16\u8F91' + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
-            r.desc.push('\u6570\u636E\u7C7B\u578B: ' + Object.prototype.toString.call(r.val));
-            r.desc.push(dateItemUnit + '\u65B0\u503C: ' + this.getDataLiteral(r.val));
-            r.desc.push(dateItemUnit + '\u65E7\u503C: ' + this.getDataLiteral(r._val));
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
 
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
@@ -586,3 +591,69 @@ var JSPDD = function (_BaseData) {
 }(_jspddBasedata2.default);
 
 exports.default = JSPDD;
+
+
+JSPDD.TEXT = {
+    "NEW": "新增",
+    "EDIT": "编辑",
+    "DELETE": "删除",
+    "NEW_VAL": "新值",
+    "OLD_VAL": "旧值",
+    "FIELD_DETAIL": "字段描述",
+    "DATA_TYPE": "数据类型",
+    "FIELD": "字段",
+    "INDEX": "索引",
+    "VAL": "值",
+
+    "DEFAULT_DICT_TEXT": "文字描述 "
+};
+
+JSPDD.generatorDict = function (sdata, ndata, ddata) {
+    var r = void 0,
+        combData = $.extend(true, sdata, ndata);
+    var prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
+
+    var cb = function cb(item, key, pnt) {
+
+        switch (Object.prototype.toString.call(item)) {
+            case '[object Array]':
+                {
+                    var tmp = item;
+                    if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
+                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
+                        (0, _jsonTraverser2.default)(_tmp2, cb);
+                        pnt[key] = { _array: _tmp2, "label": '' + prefix + key };
+                    } else {
+                        pnt[key] = {
+                            _array: {
+                                "label": '' + prefix + key
+                            },
+                            "label": '' + prefix + key
+                        };
+                    }
+
+                    break;
+                }
+            case '[object Object]':
+                {
+                    //console.log( key, item );
+                    item.label = '' + prefix + key;
+                    break;
+                }
+            default:
+                {
+                    if (key == 'label') return;
+                    pnt[key] = {
+                        "label": '' + prefix + key
+                    };
+                    break;
+                }
+        }
+    };
+
+    (0, _jsonTraverser2.default)(combData, cb);
+
+    r = Object.assign(combData, ddata);
+
+    return r;
+};

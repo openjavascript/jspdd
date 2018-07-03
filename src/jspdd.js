@@ -1,8 +1,10 @@
-
-
+import moment from 'moment';
 import diff from 'deep-diff';
+
 import KIND from 'jspdd-kind';
 import BaseData from 'jspdd-basedata';
+import jsonTraverser from 'json-traverser';
+
 /*
 const KIND = {
     'new':              'N'
@@ -12,7 +14,6 @@ const KIND = {
 };
 */
 
-import moment from 'moment';
 
 /*
     Differences are reported as one or more change records. 
@@ -145,15 +146,15 @@ export default class JSPDD extends BaseData {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDataLiteral(r.val)}` );
 
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
@@ -179,8 +180,6 @@ export default class JSPDD extends BaseData {
         return r;
     }
 
-
-
     procNew( item ){
         let r = this.descDataItem( item )
             , dict = this.getDictData( item )
@@ -199,14 +198,14 @@ export default class JSPDD extends BaseData {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `新增${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
 
         this.RESULT_ALL.push( r );
@@ -266,14 +265,14 @@ export default class JSPDD extends BaseData {
             label.slice( 0, -1 ).length && 
                 r.desc.push( `${label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `删除${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `删除${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r._val )}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
 
         this.RESULT_ALL.push( r );
@@ -304,16 +303,16 @@ export default class JSPDD extends BaseData {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.EDIT}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.EDIT}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}新值: ${this.getDataLiteral(r.val)}` );
-        r.desc.push( `${dateItemUnit}旧值: ${this.getDataLiteral(r._val)}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDataLiteral(r._val)}` );
 
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
@@ -323,14 +322,14 @@ export default class JSPDD extends BaseData {
     }
 
     getDataItemUnit( item ) {
-        let r = '字段';
+        let r = `${JSPDD.TEXT.FIELD}`;
 
         if( 
             item.path 
             && item.path.length 
             && typeof item.path[ item.path.length - 1 ] == 'number' 
         ){
-            r = '索引';
+            r = `${JSPDD.TEXT.INDEX}`;
         }
 
         return r;
@@ -355,14 +354,14 @@ export default class JSPDD extends BaseData {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `删除${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `删除${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r._val )}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
 
         this.RESULT_ALL.push( r );
@@ -390,16 +389,16 @@ export default class JSPDD extends BaseData {
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
 
-            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `字段描述: ${r.label.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.EDIT}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
         }else{
             r.label.slice( 0, -1 ).length && 
                 r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `编辑${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.EDIT}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
-        r.desc.push( `数据类型: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}新值: ${this.getDataLiteral(r.val)}` );
-        r.desc.push( `${dateItemUnit}旧值: ${this.getDataLiteral(r._val)}` );
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDataLiteral(r.val)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDataLiteral(r._val)}` );
 
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
@@ -551,7 +550,68 @@ export default class JSPDD extends BaseData {
 
         return r;
     }
-
 }
 
+JSPDD.TEXT = {
+    "NEW": "新增"
+    , "EDIT": "编辑"
+    , "DELETE": "删除"
+    , "NEW_VAL": "新值"
+    , "OLD_VAL": "旧值"
+    , "FIELD_DETAIL": "字段描述"
+    , "DATA_TYPE": "数据类型"
+    , "FIELD": "字段"
+    , "INDEX": "索引"
+    , "VAL": "值"
+
+    , "DEFAULT_DICT_TEXT": "文字描述 "
+};
+
+
+JSPDD.generatorDict = function ( sdata, ndata, ddata ) {
+    let r, combData = $.extend( true, sdata, ndata );
+    let prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
+
+    let cb = ( item, key, pnt ) => {
+
+        switch( Object.prototype.toString.call( item ) ){
+            case '[object Array]': {
+                let tmp = item;
+                if( item.length && Object.prototype.toString.call( item[0] ) == '[object Object]' ){
+                    let tmp = JSON.parse( JSON.stringify( item[0] ) );
+                    jsonTraverser( tmp, cb );
+                    pnt[key] = { _array: tmp, "label": `${prefix}${key}` };
+                }else{
+                    pnt[key] = {
+                        _array: {
+                            "label": `${prefix}${key}`
+                       }
+                       , "label": `${prefix}${key}`
+                    };
+                }
+
+                break;
+            }
+            case '[object Object]': {
+                //console.log( key, item );
+                item.label = `${prefix}${key}`;
+                break;
+            }
+            default: {
+                if( key == 'label' ) return;
+                pnt[ key ] = {
+                    "label": `${prefix}${key}`
+                };
+                break;
+            }
+        }
+
+    };
+
+    jsonTraverser( combData, cb );
+
+    r = Object.assign( combData, ddata );
+
+    return r;
+};
 
