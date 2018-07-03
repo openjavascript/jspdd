@@ -64,6 +64,32 @@ descData:   描述数据
         "ts": 1530609837718,
         "date": "2018-07-03 17:23:57"
     }
+    
+### 方法 debugData():Object
+输出调试数据，用于调试用，通常在执行 jspdd.proc后调用。
+
+    {
+        DESC: {
+            'new':              this.N
+            , 'delete':         this.D
+            , 'edit':           this.E
+            , 'arrayedit':      this.A
+            , 'RESULT_ALL':     this.RESULT_ALL
+            , 'RESULT_INDICT':  this.RESULT_INDICT
+            , 'RESULT_OUTDICT': this.RESULT_OUTDICT
+        }
+        , SRC: {
+            srcData:    this.srcData
+            , newData:  this.newData
+            , descData: this.descData
+            , diffData: this.diffData
+            , map:      this.MAP
+            , allmap:   this.ALL_MAP
+            , dictData: this.DICT
+        }
+        , INFO: {
+        }
+    }
 
 ### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ):Object
 从sdata, ndata 生成字典描述数据ddata
