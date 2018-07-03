@@ -49,6 +49,15 @@ descData:   描述数据
 ### 方法 proc():Object
 执行分析处理, 并返回处理结果
 
+    {
+        "data": [
+           ...{...}
+        ],
+        "alldata": 1,
+        "ts": 1530609837718,
+        "date": "2018-07-03 17:23:57"
+    }
+
 ### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ):Object
 从sdata, ndata 生成字典描述数据ddata
 
