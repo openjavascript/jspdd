@@ -46,7 +46,7 @@ newData:    修改后的数据
 
 descData:   描述数据
 
-### alldata
+### alldata: int
     输出结果是否包含所有数据， 1 = 包含所有数据， 0 = 只包含字典里的数据
     
     默认值 = 1
@@ -69,7 +69,7 @@ descData:   描述数据
 ### descData: Object
 用于生成数据说明文字的字典数据
 
-### proc():Object
+### proc(): Object
 执行分析处理, 并返回处理结果
 
     {
