@@ -502,22 +502,22 @@ export default class JSPDD extends BaseData {
     debugData() {
         return {
             DESC: {
-                'new':              this.N
-                , 'delete':         this.D
-                , 'edit':           this.E
-                , 'arrayedit':      this.A
-                , 'RESULT_ALL':     this.RESULT_ALL
-                , 'RESULT_INDICT':  this.RESULT_INDICT
-                , 'RESULT_OUTDICT': this.RESULT_OUTDICT
+                'new'               : this.N
+                , 'delete'          : this.D
+                , 'edit'            : this.E
+                , 'arrayedit'       : this.A
+                , 'RESULT_ALL'      : this.RESULT_ALL
+                , 'RESULT_INDICT'   : this.RESULT_INDICT
+                , 'RESULT_OUTDICT'  : this.RESULT_OUTDICT
             }
             , SRC: {
-                srcData:    this.srcData
-                , newData:  this.newData
-                , descData: this.descData
-                , diffData: this.diffData
-                , map:      this.MAP
-                , allmap:   this.ALL_MAP
-                , dictData: this.DICT
+                srcData             : this.srcData
+                , newData           : this.newData
+                , descData          : this.descData
+                , diffData          : this.diffData
+                , map               : this.MAP
+                , allmap            : this.ALL_MAP
+                , dictData          : this.DICT
             }
             , INFO: {
             }
@@ -561,19 +561,19 @@ export default class JSPDD extends BaseData {
 }
 
 JSPDD.TEXT = {
-    "NEW": "新增"
-    , "EDIT": "编辑"
-    , "DELETE": "删除"
-    , "NEW_VAL": "新值"
-    , "OLD_VAL": "旧值"
-    , "FIELD_DETAIL": "字段描述"
-    , "DATA_TYPE": "数据类型"
-    , "DATA_PATH": "数据路径"
-    , "FIELD": "字段"
-    , "INDEX": "索引"
-    , "VAL": "值"
+    "NEW"                   : "新增"
+    , "EDIT"                : "编辑"
+    , "DELETE"              : "删除"
+    , "NEW_VAL"             : "新值"
+    , "OLD_VAL"             : "旧值"
+    , "FIELD_DETAIL"        : "字段描述"
+    , "DATA_TYPE"           : "数据类型"
+    , "DATA_PATH"           : "数据路径"
+    , "FIELD"               : "字段"
+    , "INDEX"               : "索引"
+    , "VAL"                 : "值"
 
-    , "DEFAULT_DICT_TEXT": "文字描述 "
+    , "DEFAULT_DICT_TEXT"   : "文字描述 "
 };
 
 
