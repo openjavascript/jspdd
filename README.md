@@ -57,6 +57,18 @@ descData:   描述数据
 ### userId: String 
 设置用户ID，可选值
 
+### datakey_prefix：String
+定义 datakey 的前缀文字
+
+### srcData: Object
+用于生成数据对比的原始数据
+
+### newData: Object
+用于生成数据对比的变更数据
+
+### descData: Object
+用于生成数据说明文字的字典数据
+
 ### proc():Object
 执行分析处理, 并返回处理结果
 
