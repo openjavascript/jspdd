@@ -81,7 +81,7 @@ descData:   描述数据
                 "val": null,                //*     , 字段新值  , 编辑的时候会有这个值
                 "_val": null,               //*     , 字段原始值, 新增，删除，编辑的时值会有这个值
                 "indict": 1,                //(0|1) , 字段数据是否出现在字典里
-                "action": "delete"          //string, 字段的变更类型, (add, delete, edit)
+                "action": "delete"          //string, 字段的变更类型, (add = 新增, delete = 删除, edit = 编辑)
             }
         ],
         "alldata": 1,                       //(0|1) , 输出结果是否包含所有数据， 1 = 包含所有数据， 0 = 只包含字典里的数据   
