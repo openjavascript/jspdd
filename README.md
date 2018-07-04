@@ -96,22 +96,22 @@ descData:   描述数据
 
     {
         DESC: {
-            'new':              this.N
-            , 'delete':         this.D
-            , 'edit':           this.E
-            , 'arrayedit':      this.A
-            , 'RESULT_ALL':     this.RESULT_ALL
-            , 'RESULT_INDICT':  this.RESULT_INDICT
-            , 'RESULT_OUTDICT': this.RESULT_OUTDICT
+            'new'               : this.N
+            , 'delete'          : this.D
+            , 'edit'            : this.E
+            , 'arrayedit'       : this.A
+            , 'RESULT_ALL'      : this.RESULT_ALL
+            , 'RESULT_INDICT'   : this.RESULT_INDICT
+            , 'RESULT_OUTDICT'  : this.RESULT_OUTDICT
         }
         , SRC: {
-            srcData:    this.srcData
-            , newData:  this.newData
-            , descData: this.descData
-            , diffData: this.diffData
-            , map:      this.MAP
-            , allmap:   this.ALL_MAP
-            , dictData: this.DICT
+            srcData             : this.srcData
+            , newData           : this.newData
+            , descData          : this.descData
+            , diffData          : this.diffData
+            , map               : this.MAP
+            , allmap            : this.ALL_MAP
+            , dictData          : this.DICT
         }
         , INFO: {
         }
