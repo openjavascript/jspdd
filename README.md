@@ -130,7 +130,7 @@ ddata:   描述数据
 定义描述文字内容 
 
     JSPDD.TEXT = {
-        "NEW"                   :"新增"
+        "NEW"                   : "新增"
         , "EDIT"                : "编辑"
         , "DELETE"              : "删除"
         , "NEW_VAL"             : "新值"
