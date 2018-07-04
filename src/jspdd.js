@@ -164,13 +164,17 @@ export default class JSPDD extends BaseData {
         let ts = Date.now()
             , r = {
                 "label": []
-                , "datakey": item.path
+                , "datakey": (item||[]).path.slice()
                 , "desc": []
                 , "val": valField.rhs
                 , "_val": valField.lhs
                 , "indict": 0
             }
             ;
+
+        r.datakey 
+            && this.datakey_prefix 
+            && r.datakey.unshift( this.datakey_prefix );
 
         return r;
     }
