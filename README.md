@@ -75,17 +75,20 @@ descData:   描述数据
     {
         "data": [
             ...{
-                "label": [...],
-                "datakey": [...],
-                "desc": [...],
-                "_val": null,
-                "indict": 1,
-                "action": "delete"
+                "label": [...],             //array , 所有字段的文字描述 label
+                "datakey": [...],           //array , 所有字段的属性名
+                "desc": [...],              //array , 已经由jspdd处理过的数据文字描述
+                "val": null,                //*     , 字段新值  , 编辑的时候会有这个值
+                "_val": null,               //*     , 字段原始值, 新增，删除，编辑的时值会有这个值
+                "indict": 1,                //(0|1) , 字段数据是否出现在字典里
+                "action": "delete"          //string, 字段的变更类型, (add, delete, edit)
             }
         ],
-        "alldata": 1,
-        "ts": 1530609837718,
-        "date": "2018-07-03 17:23:57"
+        "alldata": 1,                       //(0|1) , 输出结果是否包含所有数据， 1 = 包含所有数据， 0 = 只包含字典里的数据   
+        "userName": "testUser",             //string, 操作数据时的用户名
+        "userId": "222",                    //string, 操作数据时的用户ID
+        "date": "2018-07-03 17:23:57",      //string, 操作数据时的标准日期时间
+        "ts": 1530609837718                 //string, 操作数据时的时间戳
     }
     
 ### debugData(): Object
