@@ -70,6 +70,8 @@ export default class JSPDD extends BaseData {
         
         this.diffData = diff( this.srcData, this.newData );
 
+        !( this.diffData && this.diffData.length ) && ( this.diffData = [] );
+
         this.diffData.map( ( v, k ) => {
             this.resolvePath( v );
             this.makeMapData( v );
