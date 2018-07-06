@@ -117,14 +117,21 @@ descData:   描述数据
         }
     }
 
-### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {} ): Object
+### 静态方法 JSPDD.generatorDict( sdata = {}, ndata = {}, ddata = {}, datalabelFormat = '' ): Object
 从sdata, ndata 生成字典描述数据ddata
 
-sdata:    原始数据
+sdata:             原始数据
 
-ndata:    修改后的数据
+ndata:             修改后的数据
 
-ddata:   描述数据
+ddata:             描述数据
+
+datalabelFormat:   自宝文本内容的格式
+
+    占位符: {path} = 完整路径, {key} = 属性名 
+    
+    例子:     
+        lang( '{path}' )
 
 ### 静态属性 JSPDD.TEXT 
 定义描述文字内容 
