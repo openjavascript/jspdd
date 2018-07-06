@@ -133,6 +133,10 @@ datalabelFormat:   自宝文本内容的格式
     例子:     
         lang( '{path}' )
 
+演示链接：
+    
+[https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html)
+
 ### 静态属性 JSPDD.TEXT 
 定义描述文字内容 
 
