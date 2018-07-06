@@ -126,7 +126,7 @@ ndata:             修改后的数据
 
 ddata:             描述数据
 
-datalabelFormat:   自宝文本内容的格式
+datalabelFormat:   自定义文本内容的格式
 
     占位符: {path} = 完整路径, {key} = 属性名 
     
