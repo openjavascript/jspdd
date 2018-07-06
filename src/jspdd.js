@@ -579,11 +579,24 @@ JSPDD.TEXT = {
 };
 
 
-JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {} ) {
+JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {}, datalabelFormat = '' ) {
     let r, combData = $.extend( true, sdata, ndata );
     let prefix = JSPDD.TEXT.DEFAULT_DICT_TEXT;
 
-    let cb = ( item, key, pnt ) => {
+    //console.log( 'ddddddddddd datalabelFormat:', datalabelFormat );
+
+    let cb = ( item, key, pnt, datapath ) => {
+
+        let label = `${prefix}${key}`;
+
+        if( datalabelFormat ){
+            label = datalabelFormat;
+            label = label.replace( /{key}/gi, key );
+            if( datapath && datapath.length ){
+                label = label.replace( /{path}/gi, datapath.join('.') );
+            }
+            console.log( datapath );
+        }
 
         switch( Object.prototype.toString.call( item ) ){
             case '[object Array]': {
@@ -591,13 +604,13 @@ JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {} ) {
                 if( item.length && Object.prototype.toString.call( item[0] ) == '[object Object]' ){
                     let tmp = JSON.parse( JSON.stringify( item[0] ) );
                     jsonTraverser( tmp, cb );
-                    pnt[key] = { _array: tmp, "label": `${prefix}${key}` };
+                    pnt[key] = { _array: tmp, "label": label };
                 }else{
                     pnt[key] = {
                         _array: {
-                            "label": `${prefix}${key}`
+                            "label": label
                        }
-                       , "label": `${prefix}${key}`
+                       , "label": label
                     };
                 }
 
@@ -605,13 +618,13 @@ JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {} ) {
             }
             case '[object Object]': {
                 //console.log( key, item );
-                item.label = `${prefix}${key}`;
+                item.label = label;
                 break;
             }
             default: {
                 if( key == 'label' ) return;
                 pnt[ key ] = {
-                    "label": `${prefix}${key}`
+                    "label": label
                 };
                 break;
             }
@@ -625,4 +638,3 @@ JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {} ) {
 
     return r;
 };
-
