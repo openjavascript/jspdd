@@ -147,6 +147,10 @@ ddata:   描述数据
 
 ## 相关演示
 
+  1. 自动生成字典数据 - 注入自定义方法
+  
+     [https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html)
+
   1. 自动生成字典数据
 
       [https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator.html)
