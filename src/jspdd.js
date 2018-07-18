@@ -153,9 +153,7 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDataLiteral(r.val)}` );
 
-        this.RESULT_ALL.push( r );
-        r.indict && this.RESULT_INDICT.push( r );
-        !r.indict && this.RESULT_OUTDICT.push( r );
+        this.itemCommonAction( r, dict, item );
 
         return r;
     }
@@ -210,9 +208,7 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r.val)}` );
 
-        this.RESULT_ALL.push( r );
-        r.indict && this.RESULT_INDICT.push( r );
-        !r.indict && this.RESULT_OUTDICT.push( r );
+        this.itemCommonAction( r, dict, item );
 
         return r;
     }
@@ -279,9 +275,7 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
 
-        this.RESULT_ALL.push( r );
-        r.indict && this.RESULT_INDICT.push( r );
-        !r.indict && this.RESULT_OUTDICT.push( r );
+        this.itemCommonAction( r, dict, item );
 
         //console.log( 'when deleting' );
         //console.log( item );
@@ -320,9 +314,7 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDataLiteral(r._val)}` );
 
-        this.RESULT_ALL.push( r );
-        r.indict && this.RESULT_INDICT.push( r );
-        !r.indict && this.RESULT_OUTDICT.push( r );
+        this.itemCommonAction( r, dict, item );
 
         return r;
     }
@@ -372,9 +364,7 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
         r.desc.push( `${dateItemUnit}值: ${this.getDataLiteral(r._val)}` );
 
-        this.RESULT_ALL.push( r );
-        r.indict && this.RESULT_INDICT.push( r );
-        !r.indict && this.RESULT_OUTDICT.push( r );
+        this.itemCommonAction( r, dict, item );
 
         return r;
     }
@@ -410,11 +400,18 @@ export default class JSPDD extends BaseData {
         r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDataLiteral(r.val)}` );
         r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDataLiteral(r._val)}` );
 
+        this.itemCommonAction( r, dict, item );
+
+        return r;
+    }
+
+    itemCommonAction( r, dict, item ) {
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
         !r.indict && this.RESULT_OUTDICT.push( r );
 
-        return r;
+        r.finallabel = {};
+        dict && dict.item && ( r.finallabel = dict.item ); 
     }
 
     getDataLiteral( item ) {
