@@ -465,7 +465,8 @@ var JSPDD = function (_BaseData) {
             val = this.getDataLiteral(val);
             var tmp = void 0;
 
-            console.log(val, item);
+            //console.log( val, item );
+
 
             //if( common.jsonInData( item, 'finallabel.unit' ) ){
             if (item.finallabel && 'unit' in item.finallabel) {
@@ -672,7 +673,7 @@ JSPDD.generatorDict = function () {
             if (datapath && datapath.length) {
                 label = label.replace(/{path}/gi, datapath.join('.'));
             }
-            console.log(datapath);
+            //console.log( datapath );
         }
 
         switch (Object.prototype.toString.call(item)) {

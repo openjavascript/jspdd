@@ -434,7 +434,7 @@ export default class JSPDD extends BaseData {
         val = this.getDataLiteral( val );
         let tmp;
 
-        console.log( val, item );
+        //console.log( val, item );
 
 
         //if( common.jsonInData( item, 'finallabel.unit' ) ){
@@ -624,7 +624,7 @@ JSPDD.generatorDict = function ( sdata = {}, ndata = {}, ddata = {}, datalabelFo
             if( datapath && datapath.length ){
                 label = label.replace( /{path}/gi, datapath.join('.') );
             }
-            console.log( datapath );
+            //console.log( datapath );
         }
 
         switch( Object.prototype.toString.call( item ) ){
