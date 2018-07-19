@@ -179,6 +179,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -194,7 +195,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDataLiteral(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
 
             this.itemCommonAction(r, dict, item);
 
@@ -230,6 +231,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -245,7 +247,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r.val));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r.val, r));
 
             this.itemCommonAction(r, dict, item);
 
@@ -292,6 +294,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -311,7 +314,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r));
 
             this.itemCommonAction(r, dict, item);
 
@@ -331,6 +334,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -346,8 +350,8 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r));
 
             this.itemCommonAction(r, dict, item);
 
@@ -376,6 +380,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -391,7 +396,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDataLiteral(r._val));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r));
 
             this.itemCommonAction(r, dict, item);
 
@@ -409,6 +414,7 @@ var JSPDD = function (_BaseData) {
             if (dict && dict.fulllabel && dict.fulllabel.length) {
                 r.label = dict.fulllabel;
             }
+            this.setAdditionData(r, dict, item);
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
@@ -423,13 +429,20 @@ var JSPDD = function (_BaseData) {
                 r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
                 r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
+
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDataLiteral(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDataLiteral(r._val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r));
 
             this.itemCommonAction(r, dict, item);
 
             return r;
+        }
+    }, {
+        key: 'setAdditionData',
+        value: function setAdditionData(r, dict, item) {
+            r.finallabel = {};
+            dict && dict.item && (r.finallabel = dict.item);
         }
     }, {
         key: 'itemCommonAction',
@@ -437,17 +450,37 @@ var JSPDD = function (_BaseData) {
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
             !r.indict && this.RESULT_OUTDICT.push(r);
-
-            r.finallabel = {};
-            dict && dict.item && (r.finallabel = dict.item);
         }
     }, {
         key: 'getDataLiteral',
-        value: function getDataLiteral(item) {
+        value: function getDataLiteral(item, dict) {
             if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) == 'object' || typeof item == 'array') {
                 return JSON.stringify(item);
             }
             return item;
+        }
+    }, {
+        key: 'getDescribableVal',
+        value: function getDescribableVal(val, item) {
+            val = this.getDataLiteral(val);
+            var tmp = void 0;
+
+            console.log(val, item);
+
+            //if( common.jsonInData( item, 'finallabel.unit' ) ){
+            if (item.finallabel && 'unit' in item.finallabel) {
+                val += item.finallabel.unit;
+            }
+            //if( common.jsonInData( item, 'finallabel.enum' ) ){
+            if (item.finallabel && 'enum' in item.finallabel) {
+                tmp = item.finallabel.enum || {};
+
+                if (val in tmp) {
+                    val = tmp[val] + '(' + val + ')';
+                }
+            }
+
+            return val;
         }
     }, {
         key: 'reset',
