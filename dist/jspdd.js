@@ -28,6 +28,10 @@ var _jsonTraverser = require('json-traverser');
 
 var _jsonTraverser2 = _interopRequireDefault(_jsonTraverser);
 
+var _jsonUtilsx = require('json-utilsx');
+
+var _jsonUtilsx2 = _interopRequireDefault(_jsonUtilsx);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -89,6 +93,8 @@ var JSPDD = function (_BaseData) {
         _this.srcData = srcData;
         _this.newData = newData;
         _this.descData = descData;
+
+        _this.fixArray = 1;
         return _this;
     }
 
@@ -103,6 +109,15 @@ var JSPDD = function (_BaseData) {
             var _this2 = this;
 
             this.reset();
+
+            this.srcDataOrigin = this.clone(this.srcData);
+            this.newDataOrigin = this.clone(this.newData);
+
+            this.srcData = this.clone(this.srcData);
+            this.newData = this.clone(this.newData);
+
+            this.resolveArray();
+            //console.log( 1111111111, Utils );
 
             //console.log( 'descDAta', this.descData );
             this.makeDict(this.descData);
@@ -121,6 +136,47 @@ var JSPDD = function (_BaseData) {
             });
 
             return this.result();
+        }
+    }, {
+        key: 'resolveArray',
+        value: function resolveArray() {
+            var _this3 = this;
+
+            if (!this.fixArray) return;
+
+            var cb = function cb(item, key, pnt, datapath) {
+                switch (Object.prototype.toString.call(item)) {
+                    case '[object Array]':
+                        {
+                            console.log('resolveArray', datapath.join('.'));
+                            console.log(Object.prototype.toString.call(item), item);
+                            _this3.cleanArray(_jsonUtilsx2.default.jsonGetData(_this3.srcData, datapath), _jsonUtilsx2.default.jsonGetData(_this3.newData, datapath));
+
+                            break;
+                        }
+                }
+            };
+            (0, _jsonTraverser2.default)(this.clone(this.srcData), cb);
+        }
+    }, {
+        key: 'cleanArray',
+        value: function cleanArray(src, target) {
+            if (_jsonUtilsx2.default.jsonEqual(src, target)) return;
+            console.log('need clean~', src, target);
+            for (var i = src.length - 1; i >= 0; i--) {
+                var item = src[i],
+                    targetItem = void 0;
+
+                for (var j = target.length - 1; j >= 0; j--) {
+                    targetItem = target[j];
+
+                    if (_jsonUtilsx2.default.jsonEqual(item, targetItem)) {
+                        target.splice(j, 1);
+                        src.splice(i, 1);
+                        break;
+                    }
+                }
+            }
         }
     }, {
         key: 'procPort',
@@ -168,40 +224,6 @@ var JSPDD = function (_BaseData) {
                         break;
                     }
             }
-        }
-    }, {
-        key: 'procArrayNew',
-        value: function procArrayNew(item) {
-            var r = this.descDataItem(item, 1),
-                dict = this.getDictData(item),
-                dateItemUnit = this.getDataItemUnit(item);
-            r.action = 'add';
-            r.actiontype = 'array';
-
-            if (dict && dict.fulllabel && dict.fulllabel.length) {
-                r.label = dict.fulllabel;
-            }
-            this.setAdditionData(r, dict, item);
-
-            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
-
-            if (r.label.length) {
-                r.indict = 1;
-
-                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
-
-                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
-            } else {
-                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
-                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
-            }
-            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
-
-            this.itemCommonAction(r, dict, item);
-
-            return r;
         }
     }, {
         key: 'descDataItem',
@@ -371,6 +393,40 @@ var JSPDD = function (_BaseData) {
             return r;
         }
     }, {
+        key: 'procArrayNew',
+        value: function procArrayNew(item) {
+            var r = this.descDataItem(item, 1),
+                dict = this.getDictData(item),
+                dateItemUnit = this.getDataItemUnit(item);
+            r.action = 'add';
+            r.actiontype = 'array';
+
+            if (dict && dict.fulllabel && dict.fulllabel.length) {
+                r.label = dict.fulllabel;
+            }
+            this.setAdditionData(r, dict, item);
+
+            r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
+
+            if (r.label.length) {
+                r.indict = 1;
+
+                r.label.slice(0, -1).length && r.desc.push('' + r.label.slice(0, -1).join(', '));
+
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+                r.desc.push(JSPDD.TEXT.FIELD_DETAIL + ': ' + r.label.slice(-1).join(''));
+            } else {
+                r.label.slice(0, -1).length && r.desc.push('' + r.datakey.slice(0, -1).join('.'));
+                r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
+            }
+            r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
+
+            this.itemCommonAction(r, dict, item);
+
+            return r;
+        }
+    }, {
         key: 'procArrayDel',
         value: function procArrayDel(item) {
             var r = this.descDataItem(item, 1),
@@ -505,7 +561,7 @@ var JSPDD = function (_BaseData) {
     }, {
         key: 'makeDict',
         value: function makeDict(data) {
-            var _this3 = this;
+            var _this4 = this;
 
             var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
             var label = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -521,26 +577,26 @@ var JSPDD = function (_BaseData) {
 
                             var fullpath = spath.join('.');
 
-                            _this3.DICT[fullpath] = {
+                            _this4.DICT[fullpath] = {
                                 item: item
                             };
 
                             if (item.label) {
                                 slabel.push(item.label);
-                                _this3.DICT[fullpath].parentlabel = label;
-                                _this3.DICT[fullpath].fulllabel = slabel;
+                                _this4.DICT[fullpath].parentlabel = label;
+                                _this4.DICT[fullpath].fulllabel = slabel;
                             } else {
                                 if (typeof item == 'string') {
                                     slabel.push(item);
-                                    _this3.DICT[fullpath].parentlabel = label;
-                                    _this3.DICT[fullpath].fulllabel = slabel;
+                                    _this4.DICT[fullpath].parentlabel = label;
+                                    _this4.DICT[fullpath].fulllabel = slabel;
                                 } else {
-                                    _this3.DICT[fullpath].parentlabel = label;
-                                    _this3.DICT[fullpath].fulllabel = slabel;
+                                    _this4.DICT[fullpath].parentlabel = label;
+                                    _this4.DICT[fullpath].fulllabel = slabel;
                                 }
                             }
 
-                            _this3.makeDict(item, spath, slabel);
+                            _this4.makeDict(item, spath, slabel);
                         });
                         break;
                     }
@@ -587,8 +643,8 @@ var JSPDD = function (_BaseData) {
                     'RESULT_OUTDICT': this.RESULT_OUTDICT
                 },
                 SRC: {
-                    srcData: this.srcData,
-                    newData: this.newData,
+                    srcData: this.srcDataOrigin,
+                    newData: this.newDataOrigin,
                     descData: this.descData,
                     diffData: this.diffData,
                     map: this.MAP,

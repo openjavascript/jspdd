@@ -5,6 +5,8 @@ import KIND from 'jspdd-kind';
 import BaseData from 'jspdd-basedata';
 import jsonTraverser from 'json-traverser';
 
+import utils from 'json-utilsx';
+
 /*
 const KIND = {
     'new':              'N'
@@ -55,6 +57,8 @@ export default class JSPDD extends BaseData {
         this.srcData    = srcData;
         this.newData    = newData;
         this.descData   = descData;
+
+        this.fixArray   = 1;
     }
 
     clone( data ) {
@@ -65,8 +69,18 @@ export default class JSPDD extends BaseData {
 
         this.reset();
 
+        this.srcDataOrigin = this.clone( this.srcData );
+        this.newDataOrigin = this.clone( this.newData );
+
+        this.srcData = this.clone( this.srcData );
+        this.newData = this.clone( this.newData );
+
+        this.resolveArray();
+        //console.log( 1111111111, Utils );
+
         //console.log( 'descDAta', this.descData );
         this.makeDict( this.descData );
+
         
         this.diffData = diff( this.srcData, this.newData );
 
@@ -84,6 +98,41 @@ export default class JSPDD extends BaseData {
         });
 
         return this.result();
+    }
+
+    resolveArray(){
+        if( !this.fixArray ) return;
+
+        let cb = ( item, key, pnt, datapath ) => {
+            switch( Object.prototype.toString.call( item ) ){
+                case '[object Array]': {
+                    console.log( 'resolveArray', datapath.join('.') ); 
+                    console.log( Object.prototype.toString.call( item ), item );
+                    this.cleanArray( utils.jsonGetData( this.srcData, datapath ), utils.jsonGetData( this.newData, datapath  ));
+
+                    break;
+                }
+            }
+        };
+        jsonTraverser( this.clone( this.srcData ), cb );
+    }
+
+    cleanArray( src, target ){
+        if( utils.jsonEqual( src, target ) ) return;
+        console.log( 'need clean~', src, target );
+        for( let i = src.length - 1; i >= 0; i-- ){
+            let item = src[i], targetItem;
+
+            for( let j = target.length - 1; j >= 0; j-- ){
+                targetItem = target[j];
+
+                if( utils.jsonEqual( item, targetItem ) ){
+                    target.splice( j, 1 );
+                    src.splice( i, 1 );
+                    break;
+                }
+            }
+        }
     }
 
     procPort( item ){
@@ -123,43 +172,6 @@ export default class JSPDD extends BaseData {
                 break;
             }
         }
-    }
-
-
-    procArrayNew( item ){
-        let r = this.descDataItem( item, 1 )
-            , dict = this.getDictData( item )
-            , dateItemUnit = this.getDataItemUnit( item )
-            ;
-        r.action = 'add';
-        r.actiontype = 'array';
-
-        if( dict && dict.fulllabel && dict.fulllabel.length ){
-            r.label = dict.fulllabel;
-        }
-        this.setAdditionData( r, dict, item );
-
-        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
-
-        if( r.label.length ){
-            r.indict = 1;
-
-            r.label.slice( 0, -1 ).length && 
-                r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
-
-            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
-        }else{
-            r.label.slice( 0, -1 ).length && 
-                r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
-            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
-        }
-        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDescribableVal(r.val, r)}` );
-
-        this.itemCommonAction( r, dict, item );
-
-        return r;
     }
 
     descDataItem( item, isArray ){
@@ -340,6 +352,41 @@ export default class JSPDD extends BaseData {
         return r;
     }
 
+    procArrayNew( item ){
+        let r = this.descDataItem( item, 1 )
+            , dict = this.getDictData( item )
+            , dateItemUnit = this.getDataItemUnit( item )
+            ;
+        r.action = 'add';
+        r.actiontype = 'array';
+
+        if( dict && dict.fulllabel && dict.fulllabel.length ){
+            r.label = dict.fulllabel;
+        }
+        this.setAdditionData( r, dict, item );
+
+        r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
+
+        if( r.label.length ){
+            r.indict = 1;
+
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.label.slice( 0, -1 ).join(', ')}` );
+
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+            r.desc.push( `${JSPDD.TEXT.FIELD_DETAIL}: ${r.label.slice( -1 ).join('')}` );
+        }else{
+            r.label.slice( 0, -1 ).length && 
+                r.desc.push( `${r.datakey.slice( 0, -1 ).join('.')}` );
+            r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
+        }
+        r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDescribableVal(r.val, r)}` );
+
+        this.itemCommonAction( r, dict, item );
+
+        return r;
+    }
 
     procArrayDel( item ){
         let r = this.descDataItem( item, 1 )
@@ -545,8 +592,8 @@ export default class JSPDD extends BaseData {
                 , 'RESULT_OUTDICT'  : this.RESULT_OUTDICT
             }
             , SRC: {
-                srcData             : this.srcData
-                , newData           : this.newData
+                srcData             : this.srcDataOrigin
+                , newData           : this.newDataOrigin
                 , descData          : this.descData
                 , diffData          : this.diffData
                 , map               : this.MAP
