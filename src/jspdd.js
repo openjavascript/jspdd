@@ -106,8 +106,10 @@ export default class JSPDD extends BaseData {
         let cb = ( item, key, pnt, datapath ) => {
             switch( Object.prototype.toString.call( item ) ){
                 case '[object Array]': {
+                    /*
                     console.log( 'resolveArray', datapath.join('.') ); 
                     console.log( Object.prototype.toString.call( item ), item );
+                    */
                     this.cleanArray( utils.jsonGetData( this.srcData, datapath ), utils.jsonGetData( this.newData, datapath  ));
 
                     break;
@@ -118,8 +120,9 @@ export default class JSPDD extends BaseData {
     }
 
     cleanArray( src, target ){
+        if( !( src && target ) ) return;
         if( utils.jsonEqual( src, target ) ) return;
-        console.log( 'need clean~', src, target );
+        //console.log( 'need clean~111', src, target );
         for( let i = src.length - 1; i >= 0; i-- ){
             let item = src[i], targetItem;
 

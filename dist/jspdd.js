@@ -148,8 +148,10 @@ var JSPDD = function (_BaseData) {
                 switch (Object.prototype.toString.call(item)) {
                     case '[object Array]':
                         {
-                            console.log('resolveArray', datapath.join('.'));
-                            console.log(Object.prototype.toString.call(item), item);
+                            /*
+                            console.log( 'resolveArray', datapath.join('.') ); 
+                            console.log( Object.prototype.toString.call( item ), item );
+                            */
                             _this3.cleanArray(_jsonUtilsx2.default.jsonGetData(_this3.srcData, datapath), _jsonUtilsx2.default.jsonGetData(_this3.newData, datapath));
 
                             break;
@@ -161,8 +163,9 @@ var JSPDD = function (_BaseData) {
     }, {
         key: 'cleanArray',
         value: function cleanArray(src, target) {
+            if (!(src && target)) return;
             if (_jsonUtilsx2.default.jsonEqual(src, target)) return;
-            console.log('need clean~', src, target);
+            //console.log( 'need clean~111', src, target );
             for (var i = src.length - 1; i >= 0; i--) {
                 var item = src[i],
                     targetItem = void 0;
