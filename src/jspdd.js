@@ -505,7 +505,8 @@ export default class JSPDD extends BaseData {
     }
 
 
-    getDataLiteral( val, item, dict, dataItem ) {
+    getDataLiteral( val, item, dict, dataItem, ingoreEncode ) {
+        let r;
         switch( Object.prototype.toString.call( val ) ){
             case '[object Object]': {
 
@@ -516,22 +517,25 @@ export default class JSPDD extends BaseData {
                     let subDict = this.getDictData( subItem ) || { item: {} };
                     subDict.finallabel = subDict.item;
                     //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-                    tmp[ subDict.item ? subDict.item.label : key ] = this.getDescribableVal( val[key], subDict, subDict, subItem );
+                    tmp[ subDict.item ? subDict.item.label : key ] = this.getDescribableVal( val[key], subDict, subDict, subItem, 1 );
                 });
 
-                let r = `\n${JSON.stringify( tmp, null, 4 )}`;
+                r = `\n${JSON.stringify( tmp, null, 4 )}`;
+                ingoreEncode && ( r = tmp );
 
                 return r;
             }
             case '[object Array]': {
-                return `${JSON.stringify( val, null, 4 )}`;
+                r = `${JSON.stringify( val, null, 4 )}`
+                ingoreEncode && ( r = val );
+                return r;
             }
         }
         return val;
     }
 
-    getDescribableVal( val, item, dict, dataItem ){
-        val = this.getDataLiteral( val, item, dict, dataItem );
+    getDescribableVal( val, item, dict, dataItem, ingoreEncode ){
+        val = this.getDataLiteral( val, item, dict, dataItem, ingoreEncode );
         let tmp;
 
         //console.log( val, item );

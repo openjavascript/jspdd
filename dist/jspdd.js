@@ -521,8 +521,11 @@ var JSPDD = function (_BaseData) {
         }
     }, {
         key: 'makeSubDictItem',
-        value: function makeSubDictItem(dataItem, key) {
+        value: function makeSubDictItem() {
             var _r$path;
+
+            var dataItem = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+            var key = arguments[1];
 
             var r = {};
 
@@ -545,9 +548,10 @@ var JSPDD = function (_BaseData) {
         }
     }, {
         key: 'getDataLiteral',
-        value: function getDataLiteral(val, item, dict, dataItem) {
+        value: function getDataLiteral(val, item, dict, dataItem, ingoreEncode) {
             var _this4 = this;
 
+            var r = void 0;
             switch (Object.prototype.toString.call(val)) {
                 case '[object Object]':
                     {
@@ -559,24 +563,27 @@ var JSPDD = function (_BaseData) {
                             var subDict = _this4.getDictData(subItem) || { item: {} };
                             subDict.finallabel = subDict.item;
                             //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-                            tmp[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem);
+                            tmp[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem, 1);
                         });
 
-                        var r = '\n' + JSON.stringify(tmp, null, 4);
+                        r = '\n' + JSON.stringify(tmp, null, 4);
+                        ingoreEncode && (r = tmp);
 
                         return r;
                     }
                 case '[object Array]':
                     {
-                        return '' + JSON.stringify(val, null, 4);
+                        r = '' + JSON.stringify(val, null, 4);
+                        ingoreEncode && (r = val);
+                        return r;
                     }
             }
             return val;
         }
     }, {
         key: 'getDescribableVal',
-        value: function getDescribableVal(val, item, dict, dataItem) {
-            val = this.getDataLiteral(val, item, dict, dataItem);
+        value: function getDescribableVal(val, item, dict, dataItem, ingoreEncode) {
+            val = this.getDataLiteral(val, item, dict, dataItem, ingoreEncode);
             var tmp = void 0;
 
             //console.log( val, item );
