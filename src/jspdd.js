@@ -226,38 +226,9 @@ export default class JSPDD extends BaseData {
             r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r.val, r)}` );
+        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r.val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
-
-        return r;
-    }
-
-    getDictData( item ) {
-        let r = this.DICT[item.fullpath]
-
-        if( !r && /[0-9]/.test( item.fullpath ) ){
-            let tmp = [];
-            item.path.map( (v)=>{
-                typeof v == 'string' && tmp.push( v );
-                typeof v == 'number' && tmp.push( '_array' );
-            });
-            /*
-            if( 'index' in item && typeof item.index == 'number' ) {
-                tmp.push( '_array' );
-            }
-            */
-            tmp.length && ( item.abspath = tmp.join('.') );
-
-            item.abspath && ( r = this.DICT[ item.abspath ] );
-        }
-
-        if( !( r && r.fulllabel && r.fulllabel.length ) && item.fullpath ){
-            let tmp = this.DICT[ item.fullpath + '._array' ];
-            if( tmp && tmp.fulllabel && tmp.fulllabel.length ){
-                r = tmp;
-            }
-        }
 
         return r;
     }
@@ -294,7 +265,7 @@ export default class JSPDD extends BaseData {
             r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
-        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r._val, r)}` );
+        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r._val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
 
@@ -333,8 +304,8 @@ export default class JSPDD extends BaseData {
             r.desc.push( `${JSPDD.TEXT.EDIT}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDescribableVal(r.val, r)}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDescribableVal(r._val, r)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDescribableVal(r.val, r, dict, item)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDescribableVal(r._val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
 
@@ -370,6 +341,8 @@ export default class JSPDD extends BaseData {
 
         r.desc.push( `${JSPDD.TEXT.DATA_PATH}: ${r.datakey.join('.')}` );
 
+        //console.log( Date.now(), 1111111111111 );
+
         if( r.label.length ){
             r.indict = 1;
 
@@ -384,7 +357,7 @@ export default class JSPDD extends BaseData {
             r.desc.push( `${JSPDD.TEXT.NEW}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDescribableVal(r.val, r)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.VAL}: ${this.getDescribableVal(r.val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
 
@@ -420,7 +393,7 @@ export default class JSPDD extends BaseData {
             r.desc.push( `${JSPDD.TEXT.DELETE}${dateItemUnit}: ${r.datakey.slice( -1 ).join('')}` );
         }
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r._val )}` );
-        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r._val, r)}` );
+        r.desc.push( `${dateItemUnit}值: ${this.getDescribableVal(r._val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
 
@@ -457,8 +430,8 @@ export default class JSPDD extends BaseData {
         }
 
         r.desc.push( `${JSPDD.TEXT.DATA_TYPE}: ${Object.prototype.toString.call( r.val )}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDescribableVal(r.val, r)}` );
-        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDescribableVal(r._val, r)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.NEW_VAL}: ${this.getDescribableVal(r.val, r, dict, item)}` );
+        r.desc.push( `${dateItemUnit}${JSPDD.TEXT.OLD_VAL}: ${this.getDescribableVal(r._val, r, dict, item)}` );
 
         this.itemCommonAction( r, dict, item );
 
@@ -476,18 +449,87 @@ export default class JSPDD extends BaseData {
         !r.indict && this.RESULT_OUTDICT.push( r );
     }
 
-    getDataLiteral( item, dict ) {
-        if( typeof item == 'object' || typeof item == 'array' ){
-            return JSON.stringify( item );
+    getDictData( item ) {
+        let r = this.DICT[item.fullpath]
+
+        if( !r && /[0-9]/.test( item.fullpath ) ){
+            let tmp = [];
+            item.path.map( (v)=>{
+                typeof v == 'string' && tmp.push( v );
+                typeof v == 'number' && tmp.push( '_array' );
+            });
+            /*
+            if( 'index' in item && typeof item.index == 'number' ) {
+                tmp.push( '_array' );
+            }
+            */
+            tmp.length && ( item.abspath = tmp.join('.') );
+
+            item.abspath && ( r = this.DICT[ item.abspath ] );
         }
-        return item;
+
+        if( !( r && r.fulllabel && r.fulllabel.length ) && item.fullpath ){
+            let tmp = this.DICT[ item.fullpath + '._array' ];
+            if( tmp && tmp.fulllabel && tmp.fulllabel.length ){
+                r = tmp;
+            }
+        }
+
+        return r;
     }
 
-    getDescribableVal( val, item ){
-        val = this.getDataLiteral( val );
+    makeSubDictItem( dataItem, key ){
+        let r = {};
+
+        r.abspath = [];
+        r.fullpath = [];
+        r.path = [];
+
+        dataItem.abspath && r.abspath.push( dataItem.abspath );
+        r.abspath.push( key );
+        r.abspath = r.abspath.join( '.' );
+
+        dataItem.fullpath && r.fullpath.push( dataItem.fullpath );
+        r.fullpath.push( key );
+        r.fullpath = r.fullpath.join( '.' );
+
+        dataItem.path && r.path.push( ...dataItem.path );
+        r.path.push( key );
+
+        return r;
+    }
+
+
+    getDataLiteral( val, item, dict, dataItem ) {
+        switch( Object.prototype.toString.call( val ) ){
+            case '[object Object]': {
+
+                let tmp = {};
+
+                Object.keys( val ).map( ( key, ix ) => {
+                    let subItem = this.makeSubDictItem( dataItem, key );
+                    let subDict = this.getDictData( subItem ) || { item: {} };
+                    subDict.finallabel = subDict.item;
+                    //console.log( key, ix,  Object.keys( val ), subItem, subDict );
+                    tmp[ subDict.item.label || key ] = this.getDescribableVal( val[key], subDict, subDict, subItem );
+                });
+
+                let r = `\n${JSON.stringify( tmp, null, 4 )}`;
+
+                return r;
+            }
+            case '[object Array]': {
+                return `${JSON.stringify( val, null, 4 )}`;
+            }
+        }
+        return val;
+    }
+
+    getDescribableVal( val, item, dict, dataItem ){
+        val = this.getDataLiteral( val, item, dict, dataItem );
         let tmp;
 
-        //console.log( val, item );
+        console.log( val, item );
 
 
         //if( common.jsonInData( item, 'finallabel.unit' ) ){
@@ -499,9 +541,10 @@ export default class JSPDD extends BaseData {
             tmp = item.finallabel.enum || {};
 
             if( val in tmp ){
-                val = `${tmp[val]}(${val})`;
+                val = `${tmp[val]}`;
             }
         }
+        console.log( val );
 
         return val;
     }

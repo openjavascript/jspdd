@@ -4,8 +4,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _moment = require('moment');
@@ -33,6 +31,8 @@ var _jsonUtilsx = require('json-utilsx');
 var _jsonUtilsx2 = _interopRequireDefault(_jsonUtilsx);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -274,39 +274,9 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r.val, r));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r.val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
-
-            return r;
-        }
-    }, {
-        key: 'getDictData',
-        value: function getDictData(item) {
-            var r = this.DICT[item.fullpath];
-
-            if (!r && /[0-9]/.test(item.fullpath)) {
-                var tmp = [];
-                item.path.map(function (v) {
-                    typeof v == 'string' && tmp.push(v);
-                    typeof v == 'number' && tmp.push('_array');
-                });
-                /*
-                if( 'index' in item && typeof item.index == 'number' ) {
-                    tmp.push( '_array' );
-                }
-                */
-                tmp.length && (item.abspath = tmp.join('.'));
-
-                item.abspath && (r = this.DICT[item.abspath]);
-            }
-
-            if (!(r && r.fulllabel && r.fulllabel.length) && item.fullpath) {
-                var _tmp = this.DICT[item.fullpath + '._array'];
-                if (_tmp && _tmp.fulllabel && _tmp.fulllabel.length) {
-                    r = _tmp;
-                }
-            }
 
             return r;
         }
@@ -341,7 +311,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
 
@@ -377,8 +347,8 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.EDIT + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r, dict, item));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
 
@@ -411,6 +381,8 @@ var JSPDD = function (_BaseData) {
 
             r.desc.push(JSPDD.TEXT.DATA_PATH + ': ' + r.datakey.join('.'));
 
+            //console.log( Date.now(), 1111111111111 );
+
             if (r.label.length) {
                 r.indict = 1;
 
@@ -423,7 +395,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.NEW + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.VAL + ': ' + this.getDescribableVal(r.val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
 
@@ -457,7 +429,7 @@ var JSPDD = function (_BaseData) {
                 r.desc.push('' + JSPDD.TEXT.DELETE + dateItemUnit + ': ' + r.datakey.slice(-1).join(''));
             }
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r._val));
-            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r));
+            r.desc.push(dateItemUnit + '\u503C: ' + this.getDescribableVal(r._val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
 
@@ -492,8 +464,8 @@ var JSPDD = function (_BaseData) {
             }
 
             r.desc.push(JSPDD.TEXT.DATA_TYPE + ': ' + Object.prototype.toString.call(r.val));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r));
-            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.NEW_VAL + ': ' + this.getDescribableVal(r.val, r, dict, item));
+            r.desc.push('' + dateItemUnit + JSPDD.TEXT.OLD_VAL + ': ' + this.getDescribableVal(r._val, r, dict, item));
 
             this.itemCommonAction(r, dict, item);
 
@@ -513,21 +485,96 @@ var JSPDD = function (_BaseData) {
             !r.indict && this.RESULT_OUTDICT.push(r);
         }
     }, {
-        key: 'getDataLiteral',
-        value: function getDataLiteral(item, dict) {
-            if ((typeof item === 'undefined' ? 'undefined' : _typeof(item)) == 'object' || typeof item == 'array') {
-                return JSON.stringify(item);
+        key: 'getDictData',
+        value: function getDictData(item) {
+            var r = this.DICT[item.fullpath];
+
+            if (!r && /[0-9]/.test(item.fullpath)) {
+                var tmp = [];
+                item.path.map(function (v) {
+                    typeof v == 'string' && tmp.push(v);
+                    typeof v == 'number' && tmp.push('_array');
+                });
+                /*
+                if( 'index' in item && typeof item.index == 'number' ) {
+                    tmp.push( '_array' );
+                }
+                */
+                tmp.length && (item.abspath = tmp.join('.'));
+
+                item.abspath && (r = this.DICT[item.abspath]);
             }
-            return item;
+
+            if (!(r && r.fulllabel && r.fulllabel.length) && item.fullpath) {
+                var _tmp = this.DICT[item.fullpath + '._array'];
+                if (_tmp && _tmp.fulllabel && _tmp.fulllabel.length) {
+                    r = _tmp;
+                }
+            }
+
+            return r;
+        }
+    }, {
+        key: 'makeSubDictItem',
+        value: function makeSubDictItem(dataItem, key) {
+            var _r$path;
+
+            var r = {};
+
+            r.abspath = [];
+            r.fullpath = [];
+            r.path = [];
+
+            dataItem.abspath && r.abspath.push(dataItem.abspath);
+            r.abspath.push(key);
+            r.abspath = r.abspath.join('.');
+
+            dataItem.fullpath && r.fullpath.push(dataItem.fullpath);
+            r.fullpath.push(key);
+            r.fullpath = r.fullpath.join('.');
+
+            dataItem.path && (_r$path = r.path).push.apply(_r$path, _toConsumableArray(dataItem.path));
+            r.path.push(key);
+
+            return r;
+        }
+    }, {
+        key: 'getDataLiteral',
+        value: function getDataLiteral(val, item, dict, dataItem) {
+            var _this4 = this;
+
+            switch (Object.prototype.toString.call(val)) {
+                case '[object Object]':
+                    {
+
+                        var tmp = {};
+
+                        Object.keys(val).map(function (key, ix) {
+                            var subItem = _this4.makeSubDictItem(dataItem, key);
+                            var subDict = _this4.getDictData(subItem) || { item: {} };
+                            subDict.finallabel = subDict.item;
+                            //console.log( key, ix,  Object.keys( val ), subItem, subDict );
+                            tmp[subDict.item.label || key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem);
+                        });
+
+                        var r = '\n' + JSON.stringify(tmp, null, 4);
+
+                        return r;
+                    }
+                case '[object Array]':
+                    {
+                        return '' + JSON.stringify(val, null, 4);
+                    }
+            }
+            return val;
         }
     }, {
         key: 'getDescribableVal',
-        value: function getDescribableVal(val, item) {
-            val = this.getDataLiteral(val);
+        value: function getDescribableVal(val, item, dict, dataItem) {
+            val = this.getDataLiteral(val, item, dict, dataItem);
             var tmp = void 0;
 
-            //console.log( val, item );
-
+            console.log(val, item);
 
             //if( common.jsonInData( item, 'finallabel.unit' ) ){
             if (item.finallabel && 'unit' in item.finallabel) {
@@ -538,9 +585,10 @@ var JSPDD = function (_BaseData) {
                 tmp = item.finallabel.enum || {};
 
                 if (val in tmp) {
-                    val = tmp[val] + '(' + val + ')';
+                    val = '' + tmp[val];
                 }
             }
+            console.log(val);
 
             return val;
         }
@@ -564,7 +612,7 @@ var JSPDD = function (_BaseData) {
     }, {
         key: 'makeDict',
         value: function makeDict(data) {
-            var _this4 = this;
+            var _this5 = this;
 
             var path = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
             var label = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
@@ -580,26 +628,26 @@ var JSPDD = function (_BaseData) {
 
                             var fullpath = spath.join('.');
 
-                            _this4.DICT[fullpath] = {
+                            _this5.DICT[fullpath] = {
                                 item: item
                             };
 
                             if (item.label) {
                                 slabel.push(item.label);
-                                _this4.DICT[fullpath].parentlabel = label;
-                                _this4.DICT[fullpath].fulllabel = slabel;
+                                _this5.DICT[fullpath].parentlabel = label;
+                                _this5.DICT[fullpath].fulllabel = slabel;
                             } else {
                                 if (typeof item == 'string') {
                                     slabel.push(item);
-                                    _this4.DICT[fullpath].parentlabel = label;
-                                    _this4.DICT[fullpath].fulllabel = slabel;
+                                    _this5.DICT[fullpath].parentlabel = label;
+                                    _this5.DICT[fullpath].fulllabel = slabel;
                                 } else {
-                                    _this4.DICT[fullpath].parentlabel = label;
-                                    _this4.DICT[fullpath].fulllabel = slabel;
+                                    _this5.DICT[fullpath].parentlabel = label;
+                                    _this5.DICT[fullpath].fulllabel = slabel;
                                 }
                             }
 
-                            _this4.makeDict(item, spath, slabel);
+                            _this5.makeDict(item, spath, slabel);
                         });
                         break;
                     }
