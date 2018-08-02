@@ -483,11 +483,14 @@ var JSPDD = function (_BaseData) {
             this.RESULT_ALL.push(r);
             r.indict && this.RESULT_INDICT.push(r);
             !r.indict && this.RESULT_OUTDICT.push(r);
+
+            r.DICT = dict;
+            r.DATA_ITEM = item;
         }
     }, {
         key: 'getDictData',
         value: function getDictData(item) {
-            var r = this.DICT[item.fullpath];
+            var r = this.DICT[item.fullpath] || null;
 
             if (!r && /[0-9]/.test(item.fullpath)) {
                 var tmp = [];
@@ -511,6 +514,8 @@ var JSPDD = function (_BaseData) {
                     r = _tmp;
                 }
             }
+
+            r = r || {};
 
             return r;
         }
@@ -554,7 +559,7 @@ var JSPDD = function (_BaseData) {
                             var subDict = _this4.getDictData(subItem) || { item: {} };
                             subDict.finallabel = subDict.item;
                             //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-                            tmp[subDict.item.label || key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem);
+                            tmp[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem);
                         });
 
                         var r = '\n' + JSON.stringify(tmp, null, 4);
@@ -574,7 +579,8 @@ var JSPDD = function (_BaseData) {
             val = this.getDataLiteral(val, item, dict, dataItem);
             var tmp = void 0;
 
-            console.log(val, item);
+            //console.log( val, item );
+
 
             //if( common.jsonInData( item, 'finallabel.unit' ) ){
             if (item.finallabel && 'unit' in item.finallabel) {
@@ -588,7 +594,7 @@ var JSPDD = function (_BaseData) {
                     val = '' + tmp[val];
                 }
             }
-            console.log(val);
+            //console.log( val );
 
             return val;
         }

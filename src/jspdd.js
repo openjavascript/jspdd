@@ -447,10 +447,13 @@ export default class JSPDD extends BaseData {
         this.RESULT_ALL.push( r );
         r.indict && this.RESULT_INDICT.push( r );
         !r.indict && this.RESULT_OUTDICT.push( r );
+
+        r.DICT = dict;
+        r.DATA_ITEM = item;
     }
 
     getDictData( item ) {
-        let r = this.DICT[item.fullpath]
+        let r = this.DICT[item.fullpath] || null;
 
         if( !r && /[0-9]/.test( item.fullpath ) ){
             let tmp = [];
@@ -475,10 +478,12 @@ export default class JSPDD extends BaseData {
             }
         }
 
+        r = r || {};
+
         return r;
     }
 
-    makeSubDictItem( dataItem, key ){
+    makeSubDictItem( dataItem = {}, key ){
         let r = {};
 
         r.abspath = [];
@@ -511,7 +516,7 @@ export default class JSPDD extends BaseData {
                     let subDict = this.getDictData( subItem ) || { item: {} };
                     subDict.finallabel = subDict.item;
                     //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-                    tmp[ subDict.item.label || key ] = this.getDescribableVal( val[key], subDict, subDict, subItem );
+                    tmp[ subDict.item ? subDict.item.label : key ] = this.getDescribableVal( val[key], subDict, subDict, subItem );
                 });
 
                 let r = `\n${JSON.stringify( tmp, null, 4 )}`;
@@ -529,7 +534,7 @@ export default class JSPDD extends BaseData {
         val = this.getDataLiteral( val, item, dict, dataItem );
         let tmp;
 
-        console.log( val, item );
+        //console.log( val, item );
 
 
         //if( common.jsonInData( item, 'finallabel.unit' ) ){
@@ -544,7 +549,7 @@ export default class JSPDD extends BaseData {
                 val = `${tmp[val]}`;
             }
         }
-        console.log( val );
+        //console.log( val );
 
         return val;
     }
