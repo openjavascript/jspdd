@@ -116,6 +116,8 @@ var JSPDD = function (_BaseData) {
             this.srcData = this.clone(this.srcData);
             this.newData = this.clone(this.newData);
 
+            //console.log( 'source', diff( this.clone( this.srcData ), this.clone( this.newData ) ) );
+
             this.resolveArray();
             //console.log( 1111111111, Utils );
 
@@ -129,6 +131,13 @@ var JSPDD = function (_BaseData) {
             this.diffData = this.clone(this.diffData);
 
             this.diffData.map(function (v, k) {
+                //console.log( 'diffData v', v, v.path );
+
+                v.srcParent = _this2.getParentData(v, _this2.srcData);
+                v.newParent = _this2.getParentData(v, _this2.newData);
+
+                v.parentDict = _this2.getParentDict(v);
+
                 _this2.resolvePath(v);
                 _this2.makeMapData(v);
 
@@ -136,6 +145,36 @@ var JSPDD = function (_BaseData) {
             });
 
             return this.result();
+        }
+    }, {
+        key: 'getParentDict',
+        value: function getParentDict(item) {
+            var r = this.DICT;
+
+            if (item.path && item.path.length) {
+                var path = item.path.slice(0, item.path.length - 1);
+                if (path.length) {
+                    path.map(function (val, key) {
+                        if (typeof val == 'number') {
+                            path[key] = '_array';
+                        }
+                    });
+                    r = this.DICT[path.join('.')];
+                }
+            }
+            return r;
+        }
+    }, {
+        key: 'getParentData',
+        value: function getParentData(item, data) {
+            var r = data;
+            if (item.path && item.path.length) {
+                var path = item.path.slice(0, item.path.length - 1);
+                if (path.length) {
+                    r = _jsonUtilsx2.default.jsonGetData(data, path);
+                }
+            }
+            return r;
         }
     }, {
         key: 'resolveArray',

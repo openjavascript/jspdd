@@ -75,6 +75,8 @@ export default class JSPDD extends BaseData {
         this.srcData = this.clone( this.srcData );
         this.newData = this.clone( this.newData );
 
+        //console.log( 'source', diff( this.clone( this.srcData ), this.clone( this.newData ) ) );
+
         this.resolveArray();
         //console.log( 1111111111, Utils );
 
@@ -90,6 +92,13 @@ export default class JSPDD extends BaseData {
         this.diffData = this.clone( this.diffData );
 
         this.diffData.map( ( v, k ) => {
+            //console.log( 'diffData v', v, v.path );
+
+            v.srcParent = this.getParentData( v, this.srcData );
+            v.newParent = this.getParentData( v, this.newData );
+
+            v.parentDict = this.getParentDict( v );
+
             this.resolvePath( v );
             this.makeMapData( v );
 
@@ -99,6 +108,35 @@ export default class JSPDD extends BaseData {
 
         return this.result();
     }
+
+    getParentDict( item ){
+        let r = this.DICT;
+
+        if( item.path && item.path.length ){
+            let path = item.path.slice( 0, item.path.length - 1 );
+            if( path.length ){
+                path.map( ( val, key ) => {
+                    if( typeof val == 'number' ){
+                        path[key] = '_array';
+                    }
+                });
+                r = this.DICT[ path.join('.') ];
+            }
+        }
+        return r;
+    }
+
+    getParentData( item, data ) {
+        let r = data;
+        if( item.path && item.path.length ){
+            let path = item.path.slice( 0, item.path.length - 1 );
+            if( path.length ){
+                r = utils.jsonGetData( data, path );
+            }
+        }
+        return r;
+    }
+
 
     resolveArray(){
         if( !this.fixArray ) return;
