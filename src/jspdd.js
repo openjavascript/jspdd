@@ -87,6 +87,12 @@ export default class JSPDD extends BaseData {
         
         this.diffData = diff( this.srcData, this.newData );
 
+        console.log( 'src diff', Date.now() );
+        console.log( this.diffData );
+        console.log( this.DICT );
+
+        this.filterIgnore( this.diffData, this.DICT );
+
 
         !( this.diffData && this.diffData.length ) && ( this.diffData = [] );
 
@@ -108,6 +114,29 @@ export default class JSPDD extends BaseData {
         });
 
         return this.result();
+    }
+
+    filterIgnore( data, dict ){
+        data = data || [];
+        dict = dict || {};
+
+        for( let i = data.length - 1; i >= 0; i-- ){
+            let item = data[i];
+            if( !( item && item.path && item.path.length ) ) continue;
+            let tmp = [], isIgnore;
+            item.path.map( ( sitem ) => {
+                tmp.push( sitem );
+                let tmpKey = `${tmp.join('.')}.is_ignore_field`;
+                if( dict[tmpKey] && dict[tmpKey].item === true  ){
+                    isIgnore = true;
+                    return false;
+                }
+            });
+            if( isIgnore ){
+                data.splice( i, 1 );
+                continue;
+            }
+        }
     }
 
     getParentDict( item ){

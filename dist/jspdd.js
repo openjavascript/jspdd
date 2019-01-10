@@ -127,6 +127,12 @@ var JSPDD = function (_BaseData) {
 
             this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
+            console.log('src diff', Date.now());
+            console.log(this.diffData);
+            console.log(this.DICT);
+
+            this.filterIgnore(this.diffData, this.DICT);
+
             !(this.diffData && this.diffData.length) && (this.diffData = []);
 
             this.diffData = this.clone(this.diffData);
@@ -146,6 +152,37 @@ var JSPDD = function (_BaseData) {
             });
 
             return this.result();
+        }
+    }, {
+        key: 'filterIgnore',
+        value: function filterIgnore(data, dict) {
+            data = data || [];
+            dict = dict || {};
+
+            var _loop = function _loop(i) {
+                var item = data[i];
+                if (!(item && item.path && item.path.length)) return 'continue';
+                var tmp = [],
+                    isIgnore = void 0;
+                item.path.map(function (sitem) {
+                    tmp.push(sitem);
+                    var tmpKey = tmp.join('.') + '.is_ignore_field';
+                    if (dict[tmpKey] && dict[tmpKey].item === true) {
+                        isIgnore = true;
+                        return false;
+                    }
+                });
+                if (isIgnore) {
+                    data.splice(i, 1);
+                    return 'continue';
+                }
+            };
+
+            for (var i = data.length - 1; i >= 0; i--) {
+                var _ret = _loop(i);
+
+                if (_ret === 'continue') continue;
+            }
         }
     }, {
         key: 'getParentDict',
@@ -533,25 +570,25 @@ var JSPDD = function (_BaseData) {
             var r = this.DICT[item.fullpath] || null;
 
             if (!r && /[0-9]/.test(item.fullpath)) {
-                var tmp = [];
+                var _tmp = [];
                 item.path.map(function (v) {
-                    typeof v == 'string' && tmp.push(v);
-                    typeof v == 'number' && tmp.push('_array');
+                    typeof v == 'string' && _tmp.push(v);
+                    typeof v == 'number' && _tmp.push('_array');
                 });
                 /*
                 if( 'index' in item && typeof item.index == 'number' ) {
                     tmp.push( '_array' );
                 }
                 */
-                tmp.length && (item.abspath = tmp.join('.'));
+                _tmp.length && (item.abspath = _tmp.join('.'));
 
                 item.abspath && (r = this.DICT[item.abspath]);
             }
 
             if (!(r && r.fulllabel && r.fulllabel.length) && item.fullpath) {
-                var _tmp = this.DICT[item.fullpath + '._array'];
-                if (_tmp && _tmp.fulllabel && _tmp.fulllabel.length) {
-                    r = _tmp;
+                var _tmp2 = this.DICT[item.fullpath + '._array'];
+                if (_tmp2 && _tmp2.fulllabel && _tmp2.fulllabel.length) {
+                    r = _tmp2;
                 }
             }
 
@@ -596,18 +633,18 @@ var JSPDD = function (_BaseData) {
                 case '[object Object]':
                     {
 
-                        var tmp = {};
+                        var _tmp3 = {};
 
                         Object.keys(val).map(function (key, ix) {
                             var subItem = _this4.makeSubDictItem(dataItem, key);
                             var subDict = _this4.getDictData(subItem) || { item: {} };
                             subDict.finallabel = subDict.item;
                             //console.log( key, ix,  Object.keys( val ), subItem, subDict );
-                            tmp[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem, 1);
+                            _tmp3[subDict.item ? subDict.item.label : key] = _this4.getDescribableVal(val[key], subDict, subDict, subItem, 1);
                         });
 
-                        r = '\n' + JSON.stringify(tmp, null, 4);
-                        ingoreEncode && (r = tmp);
+                        r = '\n' + JSON.stringify(_tmp3, null, 4);
+                        ingoreEncode && (r = _tmp3);
 
                         return r;
                     }
@@ -841,11 +878,11 @@ JSPDD.generatorDict = function () {
         switch (Object.prototype.toString.call(item)) {
             case '[object Array]':
                 {
-                    var tmp = item;
+                    var _tmp4 = item;
                     if (item.length && Object.prototype.toString.call(item[0]) == '[object Object]') {
-                        var _tmp2 = JSON.parse(JSON.stringify(item[0]));
-                        (0, _jsonTraverser2.default)(_tmp2, cb);
-                        pnt[key] = { _array: _tmp2, "label": label };
+                        var _tmp5 = JSON.parse(JSON.stringify(item[0]));
+                        (0, _jsonTraverser2.default)(_tmp5, cb);
+                        pnt[key] = { _array: _tmp5, "label": label };
                     } else {
                         pnt[key] = {
                             _array: {
