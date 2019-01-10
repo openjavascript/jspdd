@@ -876,6 +876,7 @@ JSPDD.generatorDict = function () {
 
     (0, _jsonTraverser2.default)(combData, cb);
 
+    //TODO: replace to lodash.merge
     r = Object.assign(combData, ddata);
 
     return r;
