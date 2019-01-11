@@ -87,9 +87,9 @@ export default class JSPDD extends BaseData {
         
         this.diffData = diff( this.srcData, this.newData );
 
-        console.log( 'src diff', Date.now() );
-        console.log( this.diffData );
-        console.log( this.DICT );
+        //console.log( 'src diff', Date.now() );
+        //console.log( this.diffData );
+        //console.log( this.DICT );
 
         this.filterIgnore( this.diffData, this.DICT );
 

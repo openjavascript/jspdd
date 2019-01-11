@@ -127,9 +127,9 @@ var JSPDD = function (_BaseData) {
 
             this.diffData = (0, _deepDiff2.default)(this.srcData, this.newData);
 
-            console.log('src diff', Date.now());
-            console.log(this.diffData);
-            console.log(this.DICT);
+            //console.log( 'src diff', Date.now() );
+            //console.log( this.diffData );
+            //console.log( this.DICT );
 
             this.filterIgnore(this.diffData, this.DICT);
 
