@@ -1,3 +1,4 @@
+
 # jspdd
 基于JSON数据的变更自动产生操作日志，并可自定义日志说明文字。
 
@@ -135,7 +136,7 @@ datalabelFormat:   自定义文本内容的格式
 
 演示链接：
     
-[https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html)
+[https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator-for-method.html)
 
 ### 静态属性 JSPDD.TEXT 
 定义描述文字内容 
@@ -160,17 +161,17 @@ datalabelFormat:   自定义文本内容的格式
 
   1. 自动生成字典数据 - 注入自定义方法
   
-     [https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator-for-method.html)
+     [https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator-for-method.html](https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator-for-method.html)
 
   1. 自动生成字典数据
 
-      [https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator.html](https://openjavascript.github.io/jspdd-demo/web/tools-dict-generator.html)
+      [https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator.html](https://openjavascript.github.io/jspdd-demo/demo/tools-dict-generator.html)
   1. 手动设置字典数据
 
-      [https://openjavascript.github.io/jspdd-demo/web/demo-case1.html](https://openjavascript.github.io/jspdd-demo/web/demo-case1.html)
+      [https://openjavascript.github.io/jspdd-demo/demo/demo-case1.html](https://openjavascript.github.io/jspdd-demo/demo/demo-case1.html)
       
    1. 手动设置字典数据 - 添加字段单位(unit) 与 字段枚举值(enum)
 
-        [https://openjavascript.github.io/jspdd-demo/web/demo-unit-enum.html](https://openjavascript.github.io/jspdd-demo/web/demo-unit-enum.html)
+        [https://openjavascript.github.io/jspdd-demo/demo/demo-unit-enum.html](https://openjavascript.github.io/jspdd-demo/demo/demo-unit-enum.html)
 
   1. 更多演示请查看 [jspdd-demo](https://github.com/openjavascript/jspdd-demo) 项目
