@@ -175,7 +175,8 @@ datalabelFormat:   自定义文本内容的格式
       [https://openjavascript.github.io/jspdd-demo/demo/demo-unit-enum.html](https://openjavascript.github.io/jspdd-demo/demo/demo-unit-enum.html)
       
    1. 手动设置字典数据 - 忽略字段(is_ignore_field)
-  
-     [https://openjavascript.github.io/jspdd-demo/demo/demo-is-ignore-field.html](https://openjavascript.github.io/jspdd-demo/demo/demo-is-ignore-field.html)
+   
+      [https://openjavascript.github.io/jspdd-demo/demo/demo-is-ignore-field.html](https://openjavascript.github.io/jspdd-demo/demo/demo-is-ignore-field.html)
+     
+   1. 更多演示请查看 [jspdd-demo](https://github.com/openjavascript/jspdd-demo) 项目
 
-  1. 更多演示请查看 [jspdd-demo](https://github.com/openjavascript/jspdd-demo) 项目
